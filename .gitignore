@@ -2,3 +2,5 @@
 node_modules/
 .git/
 package-lock.json
+assets/js/bootstrap.bundle.min.js.map
+assets/css/bootstrap.min.css.map
