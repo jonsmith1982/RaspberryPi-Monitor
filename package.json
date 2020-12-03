@@ -5,13 +5,13 @@
   "scripts": {
     "start": "electron ."
   },
-  "description": "",
+  "description": "A Raspberry Pi application to show the various statistics regarding hardware of the board",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/jonsmith1982/RaspberryPi-Monitor.git"
   },
   "keywords": [],
-  "author": "",
+  "author": "Jonsmith1982",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/jonsmith1982/RaspberryPi-Monitor/issues"
