@@ -2,7 +2,7 @@
 var cpuStats = require('./assets/js/cpu_stats.js');
 var cpuCores = cpuStats.totalCores();
 
-sessionStorage = window.sessionStorage;
+var sessionStorage = window.sessionStorage;
 
 function cpuUsage(err, percent, seconds, coreIndex) {
   if (err) {
