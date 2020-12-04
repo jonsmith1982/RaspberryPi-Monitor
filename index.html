@@ -10,7 +10,8 @@
     <title>RaspberryPi Monitor</title>
     
 </head>
-<body style="background: white;">
+<body>
+  <div class="container">
     <h1>RaspbrryPi Monitor</h1>
     <p>
         We are using node <script>document.write(process.versions.node)</script>,
@@ -18,19 +19,17 @@
         and Electron <script>document.write(process.versions.electron)</script>.
     </p>
     
-    <div class="gauge template" style="display:none; min-width: 200px; --rotation:90deg; --color:#5cb85c; --background:#e9ecef;">
+    <div class="gauge template" style="display:none; min-width: 100px; --rotation:90deg;">
       <div class="percentage"></div>
       <div class="mask"></div>
       <span class="value">50%</span>
     </div>
     
-    <div class="container">
-      <div id="cpu_stats" class="row"></div>
-    </div>
+    <div id="cpu_stats" class="row"></div>
 
     <script>window.$ = window.jQuery = require('./assets/js/jquery-3.5.1.slim.min.js');</script>
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
     <script src="./assets/js/website.js"></script>
-    
+  </div>  
 </body>
 </html>

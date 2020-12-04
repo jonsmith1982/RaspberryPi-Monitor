@@ -2,7 +2,7 @@
 .gauge {
     position: relative;
     border-radius: 50%/100% 100% 0 0;
-    background-color: var(--color, #a22);
+    background-color: #5cb85c;
     overflow: hidden;
 }
 .gauge:before{
@@ -29,7 +29,7 @@
     left: -1px;
     bottom: 0;
     right: -1px;
-    background-color: var(--background, #aaa);
+    background-color: #e9ecef;
     transform:rotate(var(--rotation)); 
     transform-origin: bottom center; 
     transition-duration: 600;
