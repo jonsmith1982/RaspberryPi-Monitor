@@ -5,6 +5,7 @@
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="./assets/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="./assets/css/website.css" >
 
     <title>RaspberryPi Monitor</title>
     
@@ -16,6 +17,16 @@
         Chrome <script>document.write(process.versions.chrome)</script>,
         and Electron <script>document.write(process.versions.electron)</script>.
     </p>
+    
+    <div class="gauge template" style="display:none; min-width: 200px; --rotation:90deg; --color:#5cb85c; --background:#e9ecef;">
+      <div class="percentage"></div>
+      <div class="mask"></div>
+      <span class="value">50%</span>
+    </div>
+    
+    <div class="container">
+      <div id="cpu_stats" class="row"></div>
+    </div>
 
     <script>window.$ = window.jQuery = require('./assets/js/jquery-3.5.1.slim.min.js');</script>
     <script src="./assets/js/bootstrap.bundle.min.js"></script>
