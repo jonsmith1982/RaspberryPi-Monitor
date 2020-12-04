@@ -11,7 +11,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
   let cpuPercent = Math.ceil(percent);
   $(".gauge_" + coreIndex + " .value").text(cpuPercent + "%");
   $(".gauge_" + coreIndex).css({ "--rotation": 180 * (cpuPercent / 100) + "deg"});
-  cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: 2000}, cpuUsage);
+  cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: 1000}, cpuUsage);
 }
 
 $(document).ready(function() {
