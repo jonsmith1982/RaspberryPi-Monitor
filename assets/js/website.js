@@ -1,6 +1,7 @@
 
 var cpuStats = require('./assets/js/cpu_stats.js');
 var cpuCores = cpuStats.totalCores();
+var memStats = require('./assets/js/mem_stats.js');
 
 var sessionStorage = window.sessionStorage;
 
@@ -33,5 +34,7 @@ $(document).ready(function() {
     $("#cpu_stats .gauge:last-child").show();
     cpuStats.usagePercent({coreIndex: x, sampleMs: 1000}, cpuUsage);
   }
+  
+  
     
 });
