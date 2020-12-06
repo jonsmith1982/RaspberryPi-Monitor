@@ -5,6 +5,8 @@ var memStats = require('./assets/js/mem_stats.js');
 
 var sessionStorage = window.sessionStorage;
 
+const ceil = (integer) => {return Math.ceil(integer)}
+
 function cpuUsage(err, percent, seconds, coreIndex) {
   if (err) {
     return console.log(err);
@@ -25,6 +27,23 @@ function cpuUsage(err, percent, seconds, coreIndex) {
  cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: 1000}, cpuUsage);
 }
 
+function memUsage(previousPercent = null) {
+  let memStatsAll = memStats.allStats("GiB");
+  let usedPercent = ceil(memStatsAll.usedPercent);
+  let ramStats = sessionStorage.getItem("mem_stats") ? 
+    sessionStorage.getItem("mem_stats") : '';
+  ramStats = !Array.isArray(ramStats) ? ramStats.split(',') : ramStats;
+  // Find out how many stats to hold for ram clean up excess data as we go along.
+  ramStats.push(usedPercent);
+  if (ramStats.length >= 10)
+    ramStats.shift();
+  sessionStorage.setItem("mem_stats", ramStats);
+  if (previousPercent === null || previousPercent !== usedPercent) {
+    $("meter#memory").val(usedPercent);
+  }
+  setTimeout(memUsage, 1000, usedPercent); // issue here memory seems to be going up gradually (maybe?)
+}
+
 $(document).ready(function() {
     
   for (const x of Array(cpuCores).keys()) {
@@ -35,6 +54,6 @@ $(document).ready(function() {
     cpuStats.usagePercent({coreIndex: x, sampleMs: 1000}, cpuUsage);
   }
   
-  
+  memUsage();
     
 });
