@@ -3,7 +3,7 @@ var cpuStats = require('./assets/js/cpu_stats.js');
 var cpuCores = cpuStats.totalCores();
 var memStats = require('./assets/js/mem_stats.js');
 
-var timeOut = 1000
+var timeOut = 1000;
 
 var sessionStorage = window.sessionStorage;
 
