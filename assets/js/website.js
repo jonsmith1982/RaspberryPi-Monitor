@@ -3,6 +3,8 @@ var cpuStats = require('./assets/js/cpu_stats.js');
 var cpuCores = cpuStats.totalCores();
 var memStats = require('./assets/js/mem_stats.js');
 
+var timeOut = 1000
+
 var sessionStorage = window.sessionStorage;
 
 const ceil = (integer) => {return Math.ceil(integer)}
@@ -24,7 +26,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
   sessionStorage.setItem("cpu_stats_" + coreIndex, coreStats);
   $(".gauge_" + coreIndex + " .value").text(cpuPercent + "%");
   $(".gauge_" + coreIndex).css({ "--rotation": 180 * (cpuPercent / 100) + "deg"});
- cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: 1000}, cpuUsage);
+ cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: timeOut}, cpuUsage);
 }
 
 function memUsage(previousPercent = null) {
@@ -41,7 +43,7 @@ function memUsage(previousPercent = null) {
   if (previousPercent === null || previousPercent !== usedPercent) {
     $("meter#memory").val(usedPercent);
   }
-  setTimeout(memUsage, 1000, usedPercent); // issue here memory seems to be going up gradually (maybe?)
+  setTimeout(memUsage, timeOut, usedPercent); // issue here memory seems to be going up gradually (maybe?)
 }
 
 $(document).ready(function() {
@@ -51,7 +53,7 @@ $(document).ready(function() {
     $("#cpu_stats .gauge:last-child").removeClass("template");
     $("#cpu_stats .gauge:last-child").addClass("gauge_" + x + " col-xs");
     $("#cpu_stats .gauge:last-child").show();
-    cpuStats.usagePercent({coreIndex: x, sampleMs: 1000}, cpuUsage);
+    cpuStats.usagePercent({coreIndex: x, sampleMs: timeOut}, cpuUsage);
   }
   
   memUsage();
