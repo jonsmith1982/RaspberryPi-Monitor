@@ -3,6 +3,8 @@ var cpuStats = require('./assets/js/cpu_stats.js');
 var cpuCores = cpuStats.totalCores();
 var memStats = require('./assets/js/mem_stats.js');
 
+const fs = require('fs');
+
 var timeOut = 1000;
 var historyCount = 100;
 
@@ -47,6 +49,28 @@ function memUsage(previousPercent = null) {
   setTimeout(memUsage, timeOut, usedPercent); // issue here memory seems to be going up gradually (maybe?)
 }
 
+
+function cpuTemperature() {
+  fs.readFile('/sys/class/thermal/thermal_zone0/temp', 'utf8' , (err, data) => {
+    if (err) {
+      return console.log(err);
+    }
+  
+    let temperature = data/1000;
+    let cpuTemp = sessionStorage.getItem("cpu_temp") ? 
+      sessionStorage.getItem("cpu_temp") : '';
+    cpuTemp = !Array.isArray(cpuTemp) ? cpuTemp.split(',') : cpuTemp;
+    // Find out how many stats to hold for cpu temp clean up excess data as we go along.
+    cpuTemp.push(temperature);
+    if (cpuTemp.length >= historyCount)
+      cpuTemp.shift();
+    sessionStorage.setItem("cpu_temp", cpuTemp);
+  
+    console.log(temperature + ' degrees Celcius');
+  });
+  setTimeout(cpuTemperature, timeOut);
+}
+
 $(document).ready(function() {
     
   for (const x of Array(cpuCores).keys()) {
@@ -58,5 +82,6 @@ $(document).ready(function() {
   }
   
   memUsage();
-    
+  cpuTemperature();
+  
 });
