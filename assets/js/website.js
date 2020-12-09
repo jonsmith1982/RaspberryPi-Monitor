@@ -4,6 +4,7 @@ var cpuCores = cpuStats.totalCores();
 var memStats = require('./assets/js/mem_stats.js');
 
 var timeOut = 1000;
+var historyCount = 100;
 
 var sessionStorage = window.sessionStorage;
 
@@ -21,7 +22,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
   coreStats = !Array.isArray(coreStats) ? coreStats.split(',') : coreStats;
   // Find out how many stats to hold for each core and clean up excess data as we go along.
   coreStats.push(cpuPercent);
-  if (coreStats.length >= 10)
+  if (coreStats.length >= historyCount)
     coreStats.shift();
   sessionStorage.setItem("cpu_stats_" + coreIndex, coreStats);
   $(".gauge_" + coreIndex + " .value").text(cpuPercent + "%");
@@ -37,7 +38,7 @@ function memUsage(previousPercent = null) {
   ramStats = !Array.isArray(ramStats) ? ramStats.split(',') : ramStats;
   // Find out how many stats to hold for ram clean up excess data as we go along.
   ramStats.push(usedPercent);
-  if (ramStats.length >= 10)
+  if (ramStats.length >= historyCount)
     ramStats.shift();
   sessionStorage.setItem("mem_stats", ramStats);
   if (previousPercent === null || previousPercent !== usedPercent) {
