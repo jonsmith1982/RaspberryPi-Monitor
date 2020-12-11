@@ -1,6 +1,4 @@
-
 var gauges = require('./assets/js/gauge.min.js');
-
 var cpuStats = require('./assets/js/cpu_stats.js');
 var cpuCores = cpuStats.totalCores();
 var memStats = require('./assets/js/mem_stats.js');
@@ -15,10 +13,8 @@ var sessionStorage = window.sessionStorage;
 const ceil = (integer) => {return Math.ceil(integer)}
 
 var cpuGaugeOptions = {
-  //renderTo: 'gauge1',
-  //title: 'CPU0',
-  width: 100,
-  height: 100,
+  width: 140,
+  height: 140,
   units: null,
   startAngle: 60,
   ticksAngle: 240,
@@ -31,6 +27,8 @@ var cpuGaugeOptions = {
   colorMinorTicks: 'transparent',
   colorNumbers: 'transparent',
   colorValueBoxBackground: 'transparent',
+  colorBarStroke: '#eee',
+  barStrokeWidth: 1,
   highlights: [],
   valueBox: true,
   valueBoxStroke: 0,
@@ -48,13 +46,10 @@ function cpuUsage(err, percent, seconds, coreIndex) {
   if (err) {
     return console.log(err);
   }
-  
-  // Store data for each cpu here so we can show it in a large line graph 
   let cpuPercent = Math.ceil(percent);
   let coreStats = sessionStorage.getItem("cpu_stats_" + coreIndex) ? 
     sessionStorage.getItem("cpu_stats_" + coreIndex) : '';
   coreStats = !Array.isArray(coreStats) ? coreStats.split(',') : coreStats;
-  // Find out how many stats to hold for each core and clean up excess data as we go along.
   coreStats.push(cpuPercent);
   if (coreStats.length >= historyCount)
     coreStats.shift();
@@ -69,7 +64,6 @@ function memUsage(previousPercent = null) {
   let ramStats = sessionStorage.getItem("mem_stats") ? 
     sessionStorage.getItem("mem_stats") : '';
   ramStats = !Array.isArray(ramStats) ? ramStats.split(',') : ramStats;
-  // Find out how many stats to hold for ram clean up excess data as we go along.
   ramStats.push(usedPercent);
   if (ramStats.length >= historyCount)
     ramStats.shift();
@@ -77,26 +71,57 @@ function memUsage(previousPercent = null) {
   if (previousPercent === null || previousPercent !== usedPercent) {
     $("meter#memory").val(usedPercent);
   }
-  setTimeout(memUsage, timeOut, usedPercent); // issue here memory seems to be going up gradually (maybe?)
+  setTimeout(memUsage, timeOut, usedPercent);
 }
+
+var tempGaugeOptions = {
+    renderTo: 'temp_gauge',
+    width: 100,
+    height: 130,
+    minValue: 0,
+    startAngle: 90,
+    ticksAngle: 180,
+    valueBox: false,
+    maxValue: 80,
+    majorTicks: ["0", "40", "80"],
+    minorTicks: 2,
+    strokeTicks: true,
+    highlights: [],
+    colorPlate: "transparent",
+    colorBarEnd: '#aaa',
+    colorBarStroke: '#eee',
+    colorMajorTicks: '#666',
+    colorMinorTicks: '#666',
+    colorNumbers: '#666',
+    borderShadowWidth: 12,
+    borders: true,
+    needleType: "arrow",
+    needleWidth: 2,
+    animationDuration: 500,
+    animationRule: "quad",
+    barWidth: 17,
+    barStrokeWidth:/* */1,
+    colorBarProgress: 'rgba(50,50,200,0.75)',
+    tickSide: "left",
+    numberSide: "left",
+    needleSide: "left",
+    value: 35
+};
 
 function cpuTemperature() {
   fs.readFile('/sys/class/thermal/thermal_zone0/temp', 'utf8' , (err, data) => {
     if (err) {
       return console.log(err);
     }
-  
     let temperature = data/1000;
     let cpuTemp = sessionStorage.getItem("cpu_temp") ? 
       sessionStorage.getItem("cpu_temp") : '';
     cpuTemp = !Array.isArray(cpuTemp) ? cpuTemp.split(',') : cpuTemp;
-    // Find out how many stats to hold for cpu temp clean up excess data as we go along.
     cpuTemp.push(temperature);
     if (cpuTemp.length >= historyCount)
       cpuTemp.shift();
     sessionStorage.setItem("cpu_temp", cpuTemp);
-  
-    //console.log(temperature + ' degrees Celcius');
+    document.gauges[cpuCores].value = temperature;
   });
   setTimeout(cpuTemperature, timeOut);
 }
@@ -114,7 +139,10 @@ $(document).ready(function() {
     cpuStats.usagePercent({coreIndex: x, sampleMs: timeOut}, cpuUsage);
   }
   
-  memUsage();
+  $("#cpu_graphs").append('<canvas id="temp_gauge"></canvas>');
+  new gauges.LinearGauge(tempGaugeOptions).draw();
   cpuTemperature();
-
+  
+  memUsage();
+  
 });
