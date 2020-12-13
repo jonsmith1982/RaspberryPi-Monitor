@@ -4,6 +4,7 @@ var cpuCores = cpuStats.totalCores();
 var memStats = require('./assets/js/mem_stats.js');
 
 const fs = require('fs');
+const os = require('os');
 
 var timeOut = 1000;
 var historyCount = 100;
