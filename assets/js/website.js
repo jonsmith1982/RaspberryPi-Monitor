@@ -11,9 +11,8 @@ var historyCount = 100;
 
 var sessionStorage = window.sessionStorage;
 
-function processSessionStorage(key, value) {
-  let storage = sessionStorage.getItem(key) ? 
-    sessionStorage.getItem(key) : '';
+function processStorage(key, value) {
+  let storage = sessionStorage.getItem(key) ? sessionStorage.getItem(key) : '';
   storage = !Array.isArray(storage) ? storage.split(',') : storage;
   storage.push(value);
   if (storage.length >= historyCount)
@@ -58,7 +57,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
     return console.log(err);
   }
   let cpuPercent = Math.ceil(percent);
-  processSessionStorage('cpu_stats_' + coreIndex, cpuPercent);
+  processStorage('cpu_stats_' + coreIndex, cpuPercent);
   document.gauges[coreIndex].value = cpuPercent;
   cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: timeOut}, cpuUsage);
 }
@@ -66,7 +65,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
 function memUsage(previousPercent = null) {
   let memStatsAll = memStats.allStats("GiB");
   let usedPercent = ceil(memStatsAll.usedPercent);
-  processSessionStorage('mem_stats', usedPercent);
+  processStorage('mem_stats', usedPercent);
   if (previousPercent === null || previousPercent !== usedPercent) {
     $("meter#memory").val(usedPercent);
   }
@@ -113,7 +112,7 @@ function cpuTemperature() {
       return console.log(err);
     }
     let temperature = data/1000;
-    processSessionStorage('cpu_temp', temperature);
+    processStorage('cpu_temp', temperature);
     document.gauges[cpuCores].value = temperature;
   });
   setTimeout(cpuTemperature, timeOut);
