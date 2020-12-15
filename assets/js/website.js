@@ -11,6 +11,16 @@ var historyCount = 100;
 
 var sessionStorage = window.sessionStorage;
 
+function processSessionStorage(key, value) {
+  let storage = sessionStorage.getItem(key) ? 
+    sessionStorage.getItem(key) : '';
+  storage = !Array.isArray(storage) ? storage.split(',') : storage;
+  storage.push(value);
+  if (storage.length >= historyCount)
+    storage.shift();
+  sessionStorage.setItem(key, storage);
+}
+
 const ceil = (integer) => {return Math.ceil(integer)}
 
 var cpuGaugeOptions = {
@@ -48,13 +58,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
     return console.log(err);
   }
   let cpuPercent = Math.ceil(percent);
-  let coreStats = sessionStorage.getItem("cpu_stats_" + coreIndex) ? 
-    sessionStorage.getItem("cpu_stats_" + coreIndex) : '';
-  coreStats = !Array.isArray(coreStats) ? coreStats.split(',') : coreStats;
-  coreStats.push(cpuPercent);
-  if (coreStats.length >= historyCount)
-    coreStats.shift();
-  sessionStorage.setItem("cpu_stats_" + coreIndex, coreStats);
+  processSessionStorage('cpu_stats_' + coreIndex, cpuPercent);
   document.gauges[coreIndex].value = cpuPercent;
   cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: timeOut}, cpuUsage);
 }
@@ -62,13 +66,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
 function memUsage(previousPercent = null) {
   let memStatsAll = memStats.allStats("GiB");
   let usedPercent = ceil(memStatsAll.usedPercent);
-  let ramStats = sessionStorage.getItem("mem_stats") ? 
-    sessionStorage.getItem("mem_stats") : '';
-  ramStats = !Array.isArray(ramStats) ? ramStats.split(',') : ramStats;
-  ramStats.push(usedPercent);
-  if (ramStats.length >= historyCount)
-    ramStats.shift();
-  sessionStorage.setItem("mem_stats", ramStats);
+  processSessionStorage('mem_stats', usedPercent);
   if (previousPercent === null || previousPercent !== usedPercent) {
     $("meter#memory").val(usedPercent);
   }
@@ -115,13 +113,7 @@ function cpuTemperature() {
       return console.log(err);
     }
     let temperature = data/1000;
-    let cpuTemp = sessionStorage.getItem("cpu_temp") ? 
-      sessionStorage.getItem("cpu_temp") : '';
-    cpuTemp = !Array.isArray(cpuTemp) ? cpuTemp.split(',') : cpuTemp;
-    cpuTemp.push(temperature);
-    if (cpuTemp.length >= historyCount)
-      cpuTemp.shift();
-    sessionStorage.setItem("cpu_temp", cpuTemp);
+    processSessionStorage('cpu_temp', temperature);
     document.gauges[cpuCores].value = temperature;
   });
   setTimeout(cpuTemperature, timeOut);
