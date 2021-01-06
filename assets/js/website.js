@@ -5,7 +5,6 @@ var memStats = require('./assets/js/mem_stats.js');
 var piRevisions = require('./assets/js/raspberrypi-revisions.js');
 
 const fs = require('fs');
-const os = require('os');
 
 var timeOut = 1000;
 var historyCount = 100;
@@ -58,7 +57,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
   if (err) {
     return console.log(err);
   }
-  let cpuPercent = Math.ceil(percent);
+  let cpuPercent = ceil(percent);
   processStorage('cpu_stats_' + coreIndex, cpuPercent);
   document.gauges[coreIndex].value = percent;
   cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: timeOut}, cpuUsage);
@@ -99,12 +98,10 @@ function cpuTemperature() {
 $(document).ready(function() {
 
   for (const x of Array(cpuCores).keys()) {
-    let title = 'CPU' + x;
-    let renderTo = 'cpu_gauge_' + x;
     gaugeOptions = cpuGaugeOptions;
-    gaugeOptions.title = title;
-    gaugeOptions.renderTo = renderTo;
-    $('#cpu_graphs').append('<div class="col-3 col-md-6 col-lg-3 text-center"><canvas id="' + renderTo + '" ></canvas></div>');
+    gaugeOptions.title = 'CPU' + x;
+    gaugeOptions.renderTo = 'cpu_gauge_' + x;
+    $('#cpu_graphs').append('<div class="col-3 col-md-6 col-lg-3 text-center"><canvas id="cpu_gauge_' + x + '" ></canvas></div>');
     new gauges.RadialGauge(gaugeOptions).draw(); 
     cpuStats.usagePercent({coreIndex: x, sampleMs: timeOut}, cpuUsage);
   }
