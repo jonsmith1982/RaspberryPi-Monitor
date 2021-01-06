@@ -109,15 +109,14 @@ $(document).ready(function() {
     cpuStats.usagePercent({coreIndex: x, sampleMs: timeOut}, cpuUsage);
   }
   
-  $("#temp_graphs").append('<canvas id="temp_gauge"></canvas>');
-  gaugeOptions = cpuGaugeOptions;
-  gaugeOptions.width = 120;
-  gaugeOptions.height = 120;
-  gaugeOptions.maxValue = 80;
-  gaugeOptions.title = 'CPU Temp';
-  gaugeOptions.renderTo = 'temp_gauge';
-  gaugeOptions.colorBarProgress = 'rgba(255,0,0,.5)';
-  new gauges.RadialGauge(gaugeOptions).draw(); 
+  tempGaugeOptions = cpuGaugeOptions;
+  tempGaugeOptions.width = 120;
+  tempGaugeOptions.height = 120;
+  tempGaugeOptions.maxValue = 80;
+  tempGaugeOptions.title = 'CPU Temp';
+  tempGaugeOptions.renderTo = 'temp_gauge';
+  tempGaugeOptions.colorBarProgress = 'rgba(255,0,0,.5)';
+  new gauges.RadialGauge(tempGaugeOptions).draw(); 
   cpuTemperature();
   
   memUsage();
