@@ -1,6 +1,6 @@
 # RaspberryPi-Monitor
 
-Currently under development, Raspberry Pi Monitore aims to be a full featured hardware monitor for any raspberry Pi you may be running it on with a linux operating system installed. This includes historical line graphs with precise information plotted in realtime for your reference.
+Currently under development, Raspberry Pi Monitor aims to be a full featured hardware monitor for any raspberry Pi you may be running it on with a linux operating system installed. This includes historical line graphs with precise information plotted in realtime for your reference.
 
 ## CPU Load (%)
 
