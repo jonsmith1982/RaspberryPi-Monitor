@@ -2,6 +2,7 @@ var gauges = require('./assets/js/gauge.min.js');
 var cpuStats = require('./assets/js/cpu_stats.js');
 var cpuCores = cpuStats.totalCores();
 var memStats = require('./assets/js/mem_stats.js');
+var piRevisions = require('./assets/js/raspberrypi-revisions.js');
 
 const fs = require('fs');
 const os = require('os');
