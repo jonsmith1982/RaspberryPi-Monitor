@@ -1,1 +1,5 @@
-#cpu_graphs #temp_gauge {margin-left:20px;}
+
+h2 {font-size:1.2em;}
+h2 img {width:36px; height:36px;}
+
+#mem_graphs label {font-size:0.8em;}
