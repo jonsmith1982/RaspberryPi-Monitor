@@ -63,33 +63,20 @@ function cpuUsage(err, percent, seconds, coreIndex) {
   cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: timeOut}, cpuUsage);
 }
 
-function memoryStatistics(memPrevPercent = null, swapPrevPercent = null) {
+function memoryStatistics() {
   let statistics = memInfo.statistics("GiB");
-  
-  let memUsedPercent = ceil(statistics.memUsedPercent);
-  let memUsedGB = round((statistics.memTotal * (statistics.memUsedPercent / 100)) * 100) / 100;
-  let memFreeGB = round(statistics.memFree * 100) / 100;
-  let memTotalGB = round(statistics.memTotal * 100) / 100;
-  $("#mem_label").html(`<strong>Used:</strong> ${memUsedGB}GiB <strong>Available:</strong> ${memFreeGB}GiB of ${memTotalGB}GiB`);
-  processStorage('mem_stats', memUsedPercent);
-  if (memPrevPercent === null || memPrevPercent !== memUsedPercent) {
-    $("#mem_gauge").css("width", memUsedPercent + "%");
-    $("#mem_gauge").text(memUsedPercent + "%");
-    $("#mem_gauge").attr("aria-valuenow", memUsedPercent);
-  }
-  
-  let swapUsedPercent = ceil(statistics.swapUsedPercent);
-  let swapUsedGB = round((statistics.swapTotal * (statistics.swapUsedPercent / 100)) * 100) / 100;
-  let swapFreeGB = round(statistics.swapFree * 100) / 100;
-  let swapTotalGB = round(statistics.swapTotal * 100) / 100;
-  $("#swap_label").html(`<strong>Used:</strong> ${swapUsedGB}GiB <strong>Available:</strong> ${swapFreeGB}GiB of ${swapTotalGB}GiB`);
-  processStorage('swap_stats', swapUsedPercent);
-  if (swapPrevPercent === null || swapPrevPercent !== swapUsedPercent) {
-    $("#swap_gauge").css("width", swapUsedPercent + "%");
-    $("#swap_gauge").text(swapUsedPercent + "%");
-    $("#swap_gauge").attr("aria-valuenow", swapUsedPercent);
-  }
-  setTimeout(memoryStatistics, timeOut, memUsedPercent, swapUsedPercent);
+  ['mem', 'swap'].forEach(function (t) {
+    let usedPercent = ceil(statistics[`${t}UsedPercent`]);
+    let usedGB = round((statistics[`${t}Total`] * (statistics[`${t}UsedPercent`] / 100)) * 100) / 100;
+    let freeGB = round(statistics[`${t}Free`] * 100) / 100;
+    let totalGB = round(statistics[`${t}Total`] * 100) / 100;
+    $("#" + t + "_label").html(`<strong>Used:</strong> ${usedGB}GiB <strong>Available:</strong> ${freeGB}GiB of ${totalGB}GiB`);
+    processStorage(t + '_stats', usedPercent);
+    $("#" + t + "_gauge").css("width", usedPercent + "%");
+    $("#" + t + "_gauge").text(usedPercent + "%");
+    $("#" + t + "_gauge").attr("aria-valuenow", usedPercent);
+  });
+  setTimeout(memoryStatistics, timeOut);
 }
 
 function cpuTemperature() {
