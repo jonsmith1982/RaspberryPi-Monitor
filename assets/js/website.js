@@ -70,7 +70,7 @@ function memoryStatistics(memPrevPercent = null, swapPrevPercent = null) {
   let memUsedGB = round((statistics.memTotal * (statistics.memUsedPercent / 100)) * 100) / 100;
   let memFreeGB = round(statistics.memFree * 100) / 100;
   let memTotalGB = round(statistics.memTotal * 100) / 100;
-  $("#mem_label").html("<strong>Used:</strong> " + memUsedGB + "GiB <strong>Available:</strong> " + memFreeGB + "GiB of " + memTotalGB + "GiB");
+  $("#mem_label").html(`<strong>Used:</strong> ${memUsedGB}GiB <strong>Available:</strong> ${memFreeGB}GiB of ${memTotalGB}GiB`);
   processStorage('mem_stats', memUsedPercent);
   if (memPrevPercent === null || memPrevPercent !== memUsedPercent) {
     $("#mem_gauge").css("width", memUsedPercent + "%");
@@ -82,7 +82,7 @@ function memoryStatistics(memPrevPercent = null, swapPrevPercent = null) {
   let swapUsedGB = round((statistics.swapTotal * (statistics.swapUsedPercent / 100)) * 100) / 100;
   let swapFreeGB = round(statistics.swapFree * 100) / 100;
   let swapTotalGB = round(statistics.swapTotal * 100) / 100;
-  $("#swap_label").html("<strong>Used:</strong> " + swapUsedGB + "GiB <strong>Available:</strong> " + swapFreeGB + "GiB of " + swapTotalGB + "GiB");
+  $("#swap_label").html(`<strong>Used:</strong> ${swapUsedGB}GiB <strong>Available:</strong> ${swapFreeGB}GiB of ${swapTotalGB}GiB`);
   processStorage('swap_stats', swapUsedPercent);
   if (swapPrevPercent === null || swapPrevPercent !== swapUsedPercent) {
     $("#swap_gauge").css("width", swapUsedPercent + "%");
