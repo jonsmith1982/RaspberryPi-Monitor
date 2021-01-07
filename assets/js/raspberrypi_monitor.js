@@ -1,4 +1,36 @@
-var revisions = {
+const fs = require('fs');
+
+const gaugeOptions = {
+  width: 75,
+  height: 75,
+  units: null,
+  startAngle: 60,
+  ticksAngle: 240,
+  value: 0,
+  minValue: 0,
+  maxValue: 100,
+  colorTitle: '#333',
+  colorPlate: 'transparent',
+  colorMajorTicks: 'transparent',
+  colorMinorTicks: 'transparent',
+  colorNumbers: 'transparent',
+  colorValueBoxBackground: 'transparent',
+  colorBarStroke: '#eee',
+  barStrokeWidth: 1,
+  highlights: [],
+  valueBox: true,
+  valueBoxStroke: 0,
+  valueTextShadow: false,
+  borders: false,
+  needle: false,
+  barWidth: 35,
+  barShadow: 0,
+  colorBarProgress: 'rgba(50,200,50,.75)',
+  animationRule: 'quad',
+  animationDuration: 500
+}
+
+const revisions = {
   '0002': ['Model B revision 1.0 256MB, Egoman'],
   '0003': ['Model B revision 1.0 256MB, Egoman'],
   '0004': ['Model B revision 2.0 256MB, Sony UK'],
@@ -48,4 +80,15 @@ var revisions = {
   'c03114': ['Model 4B revision 1.4 4GB, Sony UK'],
   'd03114': ['Model 4B revision 1.4 8GB, Sony UK'],
   'c03130': ['Model Pi 400 revision 1.0 4GB, Sony UK']
+};
+
+function cpuTemp() {
+  let temperature = fs.readFileSync('/sys/class/thermal/thermal_zone0/temp') / 1000;
+  return(temperature);
+}
+
+module.exports = {
+  gaugeOptions: gaugeOptions,
+  revisions: revisions,
+  cpuTemp: cpuTemp
 };
