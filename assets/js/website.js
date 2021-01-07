@@ -93,14 +93,10 @@ function memoryStatistics(memPrevPercent = null, swapPrevPercent = null) {
 }
 
 function cpuTemperature() {
-  fs.readFile('/sys/class/thermal/thermal_zone0/temp', 'utf8' , (err, data) => {
-    if (err) {
-      return console.log(err);
-    }
-    let temperature = data/1000;
-    processStorage('cpu_temp', temperature);
-    document.gauges[cpuCores].value = temperature;
-  });
+  let data = fs.readFileSync('/sys/class/thermal/thermal_zone0/temp');
+  let temperature = data/1000;
+  processStorage('cpu_temp', temperature);
+  document.gauges[cpuCores].value = temperature;
   setTimeout(cpuTemperature, timeOut);
 }
 
