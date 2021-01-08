@@ -183,11 +183,32 @@ function totalCores() {
   return(os.cpus().length);
 }
 
+function hardwareInfo() {
+  let cpuinfo = fs.readFileSync('/proc/cpuinfo');
+  return(_parseHardwareInfo(cpuinfo));
+}
+
+function _parseHardwareInfo(cpuinfo) {
+  let lines = cpuinfo.toString().split('\n');
+  lines.pop();
+  
+  let list = ['hardware', 'revision', 'serial', 'model'];
+  let data = {};
+  lines.forEach(function(line) {
+    let row = line.split(':');
+    if (list.includes(row[0].trim().toLowerCase()))
+      data[row[0].trim().toLowerCase()] = row[1].trim();
+  });
+
+  return(data);
+}
+
 module.exports = {
   gaugeOptions: gaugeOptions,
   revisions: revisions,
   cpuTemp: cpuTemp,
   memoryStatistics: memoryStatistics,
   corePercent: corePercent,
-  totalCores: totalCores
+  totalCores: totalCores,
+  hardwareInfo: hardwareInfo
 };
