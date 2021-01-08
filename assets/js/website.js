@@ -1,7 +1,6 @@
 var gauges = require('./assets/js/gauge.min.js');
 var cpuStats = require('./assets/js/cpu_stats.js');
 var cpuCores = cpuStats.totalCores();
-var memInfo = require('./assets/js/memory_statistics.js');
 const piMonitor = require('./assets/js/raspberrypi_monitor.js');
 
 var timeOut = 1000;
@@ -32,7 +31,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
 }
 
 function memoryStatistics() {
-  let statistics = memInfo.statistics();
+  let statistics = piMonitor.memoryStatistics();
   ['mem', 'swap'].forEach(function (t) {
     let usedPercent = ceil(statistics[`${t}UsedPercent`]);
     let usedGB = round((statistics[`${t}Total`] * (statistics[`${t}UsedPercent`] / 100)) * 100) / 100;
