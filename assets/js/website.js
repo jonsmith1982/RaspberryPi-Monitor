@@ -1,12 +1,12 @@
-var gauges = require('./assets/js/gauge.min.js');
-var cpuStats = require('./assets/js/cpu_stats.js');
-var cpuCores = cpuStats.totalCores();
+const gauges = require('./assets/js/gauge.min.js');
+const cpuStats = require('./assets/js/cpu_stats.js');
+const cpuCores = cpuStats.totalCores();
 const piMonitor = require('./assets/js/raspberrypi_monitor.js');
 
-var timeOut = 1000;
-var historyCount = 100;
+let timeOut = 1000;
+let historyCount = 100;
 
-var sessionStorage = window.sessionStorage;
+const sessionStorage = window.sessionStorage;
 
 function processStorage(key, value) {
   let storage = sessionStorage.getItem(key) ? sessionStorage.getItem(key) : '';
@@ -56,7 +56,7 @@ function cpuTemperature() {
 $(document).ready(function() {
 
   for (const x of Array(cpuCores).keys()) {
-    cpuGaugeOptions = piMonitor.gaugeOptions;
+    let cpuGaugeOptions = piMonitor.gaugeOptions;
     cpuGaugeOptions.title = 'CPU' + x;
     cpuGaugeOptions.renderTo = 'cpu_gauge_' + x;
     $('#cpu_graphs').append('<div class="col-3 col-md-6 col-lg-3 text-center"><canvas id="cpu_gauge_' + x + '" ></canvas></div>');
@@ -64,7 +64,7 @@ $(document).ready(function() {
     cpuStats.usagePercent({coreIndex: x, sampleMs: timeOut}, cpuUsage);
   }
   
-  tempGaugeOptions = piMonitor.gaugeOptions;
+  let tempGaugeOptions = piMonitor.gaugeOptions;
   tempGaugeOptions.width = 120;
   tempGaugeOptions.height = 120;
   tempGaugeOptions.maxValue = 80;
