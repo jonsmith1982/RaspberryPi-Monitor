@@ -49,12 +49,12 @@ function cpuTemperature() {
 function versionInfo() {
   let hInfo = piMonitor.hardwareInfo();
   let li = function(label, value) {return(`<li class="list-group-item"><strong>${label}:</strong> ${value}</li>`)};
-  $("#version_info").append(li('Processor', hInfo.hardware));
+  $("#version_info").append(li('Chipset', hInfo.hardware));
   if (hInfo.revision in piMonitor.revisions) {
     let rInfo = piMonitor.revisions[hInfo.revision];
-    $("#version_info").append(li('Model', rInfo[1]));
-    $("#version_info").append(li('Revision', rInfo[2]));
     $("#version_info").append(li('Manufacturer', rInfo[4]));
+    $("#version_info").append(li('Model', rInfo[1] + ' (' + rInfo[3] + ')'));
+    $("#version_info").append(li('Revision', rInfo[2]));
   }
   $("#version_info").append(li('Serial No', hInfo.serial));
 }
