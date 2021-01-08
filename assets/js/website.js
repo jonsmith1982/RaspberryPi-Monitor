@@ -46,7 +46,21 @@ function cpuTemperature() {
   setTimeout(cpuTemperature, timeOut);
 }
 
+function versionInfo() {
+  let hInfo = piMonitor.hardwareInfo();
+  $("#version_info").append('<li class="list-group-item"><strong>Processor:</strong> ' + hInfo.hardware + '</li>');
+  if (hInfo.revision in piMonitor.revisions) {
+    let rInfo = piMonitor.revisions[hInfo.revision];
+    $("#version_info").append('<li class="list-group-item"><strong>Model:</strong> ' + rInfo[1] + '</li>');
+    $("#version_info").append('<li class="list-group-item"><strong>Revision:</strong> ' + rInfo[2] + '</li>');
+    $("#version_info").append('<li class="list-group-item"><strong>Manufacturer:</strong> ' + rInfo[4] + '</li>');
+  }
+  $("#version_info").append('<li class="list-group-item"><strong>Serial No:</strong> ' + hInfo.serial + '</li>');
+}
+
 $(document).ready(function() {
+  
+  versionInfo();
 
   for (const x of Array(cpuCores).keys()) {
     let cpuGaugeOptions = piMonitor.gaugeOptions;
