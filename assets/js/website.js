@@ -16,11 +16,8 @@ function processStorage(key, value) {
   sessionStorage.setItem(key, storage);
 }
 
-const ceil = (integer) => {return Math.ceil(integer)}
-const round = (integer) => {return Math.round(integer)}
-
 function cpuUsage(percent, seconds, coreIndex) {
-  let cpuPercent = ceil(percent);
+  let cpuPercent = Math.ceil(percent);
   processStorage('cpu_stats_' + coreIndex, cpuPercent);
   document.gauges[coreIndex].value = percent;
   piMonitor.corePercent(coreIndex, timeOut, cpuUsage);
@@ -29,10 +26,10 @@ function cpuUsage(percent, seconds, coreIndex) {
 function memoryStatistics() {
   let statistics = piMonitor.memoryStatistics();
   ['mem', 'swap'].forEach(function (t) {
-    let usedPercent = ceil(statistics[`${t}UsedPercent`]);
-    let usedGB = round((statistics[`${t}Total`] * (statistics[`${t}UsedPercent`] / 100)) * 100) / 100;
-    let freeGB = round(statistics[`${t}Free`] * 100) / 100;
-    let totalGB = round(statistics[`${t}Total`] * 100) / 100;
+    let usedPercent = Math.ceil(statistics[`${t}UsedPercent`]);
+    let usedGB = Math.round((statistics[`${t}Total`] * (statistics[`${t}UsedPercent`] / 100)) * 100) / 100;
+    let freeGB = Math.round(statistics[`${t}Free`] * 100) / 100;
+    let totalGB = Math.round(statistics[`${t}Total`] * 100) / 100;
     $("#" + t + "_label").html(`<strong>Used:</strong> ${usedGB}GiB <strong>Available:</strong> ${freeGB}GiB of ${totalGB}GiB`);
     processStorage(t + '_stats', usedPercent);
     $("#" + t + "_gauge").css("width", usedPercent + "%");
