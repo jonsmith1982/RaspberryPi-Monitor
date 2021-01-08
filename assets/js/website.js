@@ -32,7 +32,7 @@ function cpuUsage(err, percent, seconds, coreIndex) {
 }
 
 function memoryStatistics() {
-  let statistics = memInfo.statistics("GiB");
+  let statistics = memInfo.statistics();
   ['mem', 'swap'].forEach(function (t) {
     let usedPercent = ceil(statistics[`${t}UsedPercent`]);
     let usedGB = round((statistics[`${t}Total`] * (statistics[`${t}UsedPercent`] / 100)) * 100) / 100;

@@ -4,11 +4,10 @@ module.exports = {
   statistics: allStatistics
 };
 
-function allStatistics(units) {
-  units = units || 'bytes';
+function allStatistics() {
   var meminfo = _parseProcMeminfo();
-  let memory = _memory_statistics(meminfo, units);
-  let swap = _swap_statistics(meminfo, units);
+  let memory = _memory_statistics(meminfo);
+  let swap = _swap_statistics(meminfo);
   return {
     memFree: memory[0],
     memTotal: memory[1],
@@ -19,30 +18,26 @@ function allStatistics(units) {
   };
 }
 
-function _memory_statistics(meminfo, units) {
-  units = units || 'bytes';
-  
+function _memory_statistics(meminfo) {  
   let memFree = meminfo.memfree;
   let memCached = meminfo.cached;
   let memBuffers = meminfo.buffers;
   let memTotal = meminfo.memtotal;
   
-  let memFreeUnits = _bytesTo((memFree + memCached + memBuffers) * 1024, units);
-  let memTotalUnits = _bytesTo(memTotal * 1024, units);
+  let memFreeUnits = _bytesTo((memFree + memCached + memBuffers) * 1024);
+  let memTotalUnits = _bytesTo(memTotal * 1024);
   let memUsedPercent = ((memTotal - (memFree + memCached + memBuffers)) / memTotal) * 100;
   
   return([memFreeUnits, memTotalUnits, memUsedPercent]);
 }
 
-function _swap_statistics(meminfo, units) {
-  units = units || 'bytes';
-  
+function _swap_statistics(meminfo) {  
   let swapTotal = meminfo.swaptotal;
   let swapFree = meminfo.swapfree;
   let swapCached = meminfo.swapcached;
   
-  let swapFreeUnits = _bytesTo((swapFree + swapCached) * 1024, units);
-  let swapTotalUnits = _bytesTo(swapTotal * 1024, units);
+  let swapFreeUnits = _bytesTo((swapFree + swapCached) * 1024);
+  let swapTotalUnits = _bytesTo(swapTotal * 1024);
   let swapUsedPercent = ((swapTotal - (swapFree + swapCached)) / swapTotal) * 100
   
   return([swapFreeUnits, swapTotalUnits, swapUsedPercent]);
@@ -68,29 +63,8 @@ function _formatParsedProcMeminfo(meminfo) {
   return data;
 }
 
-function _bytesTo(bytes, units) {
-  var KiB = 1024;
-  var MiB = 1024 * KiB;
-  var GiB = 1024 * MiB;
-
-  switch (units) {
-    case 'bytes':
-      break;
-    case 'KiB':
-      bytes /= KiB;
-      break;
-    case 'MiB':
-      bytes /= MiB;
-      break;
-    case 'GiB':
-      bytes /= GiB;
-      break;
-    default:
-      var errMsg =
-        '[mem-stats] Error: Unknown units "' + units + '", use one of: ' +
-        '"bytes" (default), "KiB", "MiB" or "GiB"';
-      console.log(errMsg);
-  }
-
-  return bytes;
+function _bytesTo(bytes) {
+  var GiB = 1024 * 1024 * 1024;
+  bytes /= GiB;
+  return(bytes);
 }
