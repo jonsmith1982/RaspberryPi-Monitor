@@ -1,7 +1,6 @@
 const gauges = require('./assets/js/gauge.min.js');
-const cpuStats = require('./assets/js/cpu_stats.js');
-const cpuCores = cpuStats.totalCores();
 const piMonitor = require('./assets/js/raspberrypi_monitor.js');
+const cpuCores = piMonitor.totalCores();
 
 let timeOut = 1000;
 let historyCount = 100;
@@ -20,14 +19,11 @@ function processStorage(key, value) {
 const ceil = (integer) => {return Math.ceil(integer)}
 const round = (integer) => {return Math.round(integer)}
 
-function cpuUsage(err, percent, seconds, coreIndex) {
-  if (err) {
-    return console.log(err);
-  }
+function cpuUsage(percent, seconds, coreIndex) {
   let cpuPercent = ceil(percent);
   processStorage('cpu_stats_' + coreIndex, cpuPercent);
   document.gauges[coreIndex].value = percent;
-  cpuStats.usagePercent({coreIndex: coreIndex, sampleMs: timeOut}, cpuUsage);
+  piMonitor.corePercent(coreIndex, timeOut, cpuUsage);
 }
 
 function memoryStatistics() {
@@ -61,7 +57,7 @@ $(document).ready(function() {
     cpuGaugeOptions.renderTo = 'cpu_gauge_' + x;
     $('#cpu_graphs').append('<div class="col-3 col-md-6 col-lg-3 text-center"><canvas id="cpu_gauge_' + x + '" ></canvas></div>');
     new gauges.RadialGauge(cpuGaugeOptions).draw(); 
-    cpuStats.usagePercent({coreIndex: x, sampleMs: timeOut}, cpuUsage);
+    piMonitor.corePercent(x, timeOut, cpuUsage);
   }
   
   let tempGaugeOptions = piMonitor.gaugeOptions;

@@ -1,4 +1,5 @@
 const fs = require('fs');
+const os = require('os');
 
 const gaugeOptions = {
   width: 75,
@@ -152,9 +153,41 @@ function _bytesTo(bytes) {
   return(bytes);
 }
 
+function corePercent(coreIndex, sampleMs, cb) {
+  let timeUsed0 = 0;
+  let timeUsed1 = 0;
+  let timeIdle0 = 0;
+  let timeIdle1 = 0;
+  let cpu0 = os.cpus();
+  const time = process.hrtime();
+  setTimeout(function() {
+    let cpu1 = os.cpus();
+    const diff = process.hrtime(time);
+    const diffSeconds = diff[0] + diff[1] * 1e-9;
+    timeUsed1 += cpu1[coreIndex].times.user;
+    timeUsed1 += cpu1[coreIndex].times.nice;
+    timeUsed1 += cpu1[coreIndex].times.sys;
+    timeIdle1 += cpu1[coreIndex].times.idle;
+    timeUsed0 += cpu0[coreIndex].times.user;
+    timeUsed0 += cpu0[coreIndex].times.nice;
+    timeUsed0 += cpu0[coreIndex].times.sys;
+    timeIdle0 += cpu0[coreIndex].times.idle;
+    const timeUsed = timeUsed1 - timeUsed0;
+    const timeIdle = timeIdle1 - timeIdle0;
+    const percent = (timeUsed / (timeUsed + timeIdle)) * 100;
+    return(cb(percent, diffSeconds, coreIndex));
+  }, sampleMs);
+}
+
+function totalCores() {
+  return(os.cpus().length);
+}
+
 module.exports = {
   gaugeOptions: gaugeOptions,
   revisions: revisions,
   cpuTemp: cpuTemp,
-  memoryStatistics: memoryStatistics
+  memoryStatistics: memoryStatistics,
+  corePercent: corePercent,
+  totalCores: totalCores
 };
