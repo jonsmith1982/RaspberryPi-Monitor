@@ -83,6 +83,17 @@ const revisions = {
   'c03130': ['Model Pi 400 revision 1.0 4GB, Sony UK', 'Pi 400', '1.0', '4GB', 'Sony UK']
 };
 
+const sessionStorage = window.sessionStorage;
+
+function processStorage(key, value) {
+  let storage = sessionStorage.getItem(key) ? sessionStorage.getItem(key) : '';
+  storage = !Array.isArray(storage) ? storage.split(',') : storage;
+  storage.push(value);
+  if (storage.length >= historyCount)
+    storage.shift();
+  sessionStorage.setItem(key, storage);
+}
+
 function cpuTemp() {
   let temperature = fs.readFileSync('/sys/class/thermal/thermal_zone0/temp') / 1000;
   return(temperature);
@@ -210,6 +221,7 @@ function upTime() {
 }
 
 module.exports = {
+  processStorage: processStorage,
   gaugeOptions: gaugeOptions,
   revisions: revisions,
   cpuTemp: cpuTemp,

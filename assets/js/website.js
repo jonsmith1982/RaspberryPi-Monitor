@@ -5,20 +5,9 @@ const cpuCores = piMonitor.totalCores();
 let timeOut = 1000;
 let historyCount = 100;
 
-const sessionStorage = window.sessionStorage;
-
-function processStorage(key, value) {
-  let storage = sessionStorage.getItem(key) ? sessionStorage.getItem(key) : '';
-  storage = !Array.isArray(storage) ? storage.split(',') : storage;
-  storage.push(value);
-  if (storage.length >= historyCount)
-    storage.shift();
-  sessionStorage.setItem(key, storage);
-}
-
 function cpuUsage(percent, seconds, coreIndex) {
   let cpuPercent = Math.ceil(percent);
-  processStorage('cpu_stats_' + coreIndex, cpuPercent);
+  piMonitor.processStorage('cpu_stats_' + coreIndex, cpuPercent);
   document.gauges[coreIndex].value = percent;
   piMonitor.corePercent(coreIndex, timeOut, cpuUsage);
 }
@@ -31,7 +20,7 @@ function memoryStatistics() {
     let freeGB = Math.round(statistics[`${t}Free`] * 100) / 100;
     let totalGB = Math.round(statistics[`${t}Total`] * 100) / 100;
     $("#" + t + "_label").html(`<strong>Used:</strong> ${usedGB}GiB <strong>Available:</strong> ${freeGB}GiB of ${totalGB}GiB`);
-    processStorage(t + '_stats', usedPercent);
+    piMonitor.processStorage(t + '_stats', usedPercent);
     $("#" + t + "_gauge").css("width", usedPercent + "%");
     $("#" + t + "_gauge").text(usedPercent + "%");
     $("#" + t + "_gauge").attr("aria-valuenow", usedPercent);
@@ -41,7 +30,7 @@ function memoryStatistics() {
 
 function cpuTemperature() {
   let temperature = piMonitor.cpuTemp();
-  processStorage('cpu_temp', temperature);
+  piMonitor.processStorage('cpu_temp', temperature);
   document.gauges[cpuCores].value = temperature;
   setTimeout(cpuTemperature, timeOut);
 }
