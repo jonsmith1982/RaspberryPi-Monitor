@@ -203,6 +203,12 @@ function _parseHardwareInfo(cpuinfo) {
   return(data);
 }
 
+function upTime() {
+  let data = fs.readFileSync('/proc/uptime');
+  let row = data.toString().split(' ');
+  return(row[0]);
+}
+
 module.exports = {
   gaugeOptions: gaugeOptions,
   revisions: revisions,
@@ -210,5 +216,6 @@ module.exports = {
   memoryStatistics: memoryStatistics,
   corePercent: corePercent,
   totalCores: totalCores,
-  hardwareInfo: hardwareInfo
+  hardwareInfo: hardwareInfo,
+  upTime: upTime
 };
