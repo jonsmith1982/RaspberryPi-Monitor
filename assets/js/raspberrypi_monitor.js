@@ -214,10 +214,9 @@ function _parseHardwareInfo(cpuinfo) {
   return(data);
 }
 
-function upTime() {
-  let data = fs.readFileSync('/proc/uptime');
-  let row = data.toString().split(' ');
-  return(row[0]);
+function uptimeInfo() {
+  let uptime = os.uptime();
+  return(uptime);
 }
 
 module.exports = {
@@ -229,5 +228,5 @@ module.exports = {
   corePercent: corePercent,
   totalCores: totalCores,
   hardwareInfo: hardwareInfo,
-  upTime: upTime
+  uptimeInfo: uptimeInfo
 };

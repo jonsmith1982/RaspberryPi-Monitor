@@ -48,16 +48,16 @@ function versionInfo() {
   $("#version_info").append(li('Serial No', hInfo.serial));
 }
 
-function upTime() {
-  let uptime = piMonitor.upTime();
+function uptimeInfo() {
+  let uptime = piMonitor.uptimeInfo();
   $("#uptime").html(`<li class="list-group-item"><strong>Uptime:</strong> ${uptime} seconds</li>`);
-  setTimeout(upTime, timeOut);
+  setTimeout(uptimeInfo, timeOut);
 }
 
 $(document).ready(function() {
   
   versionInfo();
-  upTime();
+  uptimeInfo();
 
   for (const x of Array(cpuCores).keys()) {
     let cpuGaugeOptions = piMonitor.gaugeOptions;
