@@ -50,7 +50,7 @@ function versionInfo() {
 
 function uptimeInfo() {
   let uptime = piMonitor.uptimeInfo();
-  $("#uptime").html(`<li class="list-group-item"><strong>Uptime:</strong> ${uptime} seconds</li>`);
+  $("#uptime").html('<li class="list-group-item">' + uptime + '</li>');
   setTimeout(uptimeInfo, timeOut);
 }
 

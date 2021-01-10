@@ -216,7 +216,25 @@ function _parseHardwareInfo(cpuinfo) {
 
 function uptimeInfo() {
   let uptime = os.uptime();
-  return(uptime);
+  return(_readableUptime(uptime));
+}
+
+function _readableUptime(value){
+  let uptimeString = '';
+  const years = Math.floor(value / 31556926);
+  let remainder = value % 31556926;
+  const days = Math.floor( remainder / 86400);
+  remainder = value % 86400;
+  const hours = Math.floor(remainder / 3600);
+  remainder = value % 3600;
+  const minutes = Math.floor(remainder / 60);
+  const seconds = Math.floor(remainder % 60);
+  if (years != 0) uptimeString += years + " y ";
+  if (years != 0 || days != 0) uptimeString += days + " d ";
+  if (days != 0 || hours != 0) uptimeString += hours + " h ";
+  uptimeString += minutes  + " m ";
+  uptimeString += seconds + " s";
+  return(uptimeString);
 }
 
 module.exports = {
