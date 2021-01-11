@@ -72,6 +72,10 @@ function networkInfo() {
   setTimeout(networkInfo, timeOut);
 }
 
+function diskInfo() {
+  // lsblk -bPo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,RM,LABEL,MODEL,OWNER
+}
+
 $(document).ready(function() {
   
   versionInfo();
