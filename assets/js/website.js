@@ -45,7 +45,8 @@ function versionInfo() {
     $("#version_info").append(li('Model', rInfo[1] + ' (' + rInfo[3] + ')'));
     $("#version_info").append(li('Revision', rInfo[2]));
   }
-  $("#version_info").append(li('Serial No', hInfo.serial));
+  //$("#version_info").append(li('Serial No', hInfo.serial));
+  $("#version_info").append(li('Serial No', '0000000000000'));
 }
 
 function uptimeInfo() {
