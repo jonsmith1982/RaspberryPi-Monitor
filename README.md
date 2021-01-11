@@ -3,7 +3,7 @@
 Currently under development, Raspberry Pi Monitor aims to be a full featured hardware monitor for any raspberry Pi you may be running it on with a Linux operating system installed. This includes graphs with precise information plotted in real time for your reference.
 
 ![1st Draft Screenshot](screenshot.png)
-![1st Draft Large Screenshot](screenshot-lg.png)
+![1st Draft Large Screenshot](screenshot_lg.png)
 
 ## CPU Load (%)
 
