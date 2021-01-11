@@ -165,10 +165,7 @@ function bytesTo(bytes) {
 }
 
 function corePercent(coreIndex, sampleMs, cb) {
-  let timeUsed0 = 0;
-  let timeUsed1 = 0;
-  let timeIdle0 = 0;
-  let timeIdle1 = 0;
+  let timeUsed0 = 0, timeUsed1 = 0, timeIdle0 = 0, timeIdle1 = 0;
   let cpu0 = os.cpus();
   const time = process.hrtime();
   setTimeout(function() {
@@ -242,42 +239,29 @@ function networkInfo() {
 }
 
 function _parseProcNetDev() {
-  var buf = fs.readFileSync('/proc/net/dev');
-  var lines = buf.toString().trim().split('\n');
-  var sections = lines.shift().split('|');
-  var columns = lines.shift().trim().split('|');
-
-  var s;
-  var l;
-  var c;
-  var p = 0;
-  var map = {};
-  var keys = [];
-  for (var i = 0; i < sections.length; ++i) {
-    s = sections[i].trim();
-    l = sections[i].length;
-    c = columns[i].trim().split(/\s+/g);
+  const buf = fs.readFileSync('/proc/net/dev');
+  const lines = buf.toString().trim().split('\n');
+  const sections = lines.shift().split('|');
+  const columns = lines.shift().trim().split('|');
+  let s, l, c, p = 0, map = {}, keys = [];
+  for (let i = 0; i < sections.length; ++i) {
+    let s = sections[i].trim();
+    let l = sections[i].length;
+    let c = columns[i].trim().split(/\s+/g);
     while (c.length) {
       map[keys.length] = s;
       keys.push(c.shift());
     }
     p += s.length + 1;
   }
-
-  var retObj = {};
-
+  let retObj = {};
   lines.forEach(function(l) {
     l = l.trim().split(/\s+/g);
-    var o = {};
-    var iface;
-    for (var i = 0; i < l.length; ++i) {
-      var s = map[i];
-
-      //case for the Interface
+    let o = {}, iface;
+    for (let i = 0; i < l.length; ++i) {
+      let s = map[i];
       if (s.indexOf('-') === s.length - 1) {
         iface = l[i].substr(0, l[i].length - 1);
-
-      //case for everything else
       } else {
         if (!o[keys[i]]) {
           o[keys[i].toLowerCase()] = {};
