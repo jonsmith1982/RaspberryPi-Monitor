@@ -159,7 +159,7 @@ function _formatParsedProcMeminfo(meminfo) {
 }
 
 function _bytesTo(bytes) {
-  var GiB = 1024 * 1024 * 1024;
+  var GiB = 1073741824;
   bytes /= GiB;
   return(bytes);
 }
@@ -237,6 +237,59 @@ function _readableUptime(value){
   return(uptimeString);
 }
 
+function networkInfo() {
+  return(_parseProcNetDev());
+}
+
+function _parseProcNetDev() {
+  var buf = fs.readFileSync('/proc/net/dev');
+  var lines = buf.toString().trim().split('\n');
+  var sections = lines.shift().split('|');
+  var columns = lines.shift().trim().split('|');
+
+  var s;
+  var l;
+  var c;
+  var p = 0;
+  var map = {};
+  var keys = [];
+  for (var i = 0; i < sections.length; ++i) {
+    s = sections[i].trim();
+    l = sections[i].length;
+    c = columns[i].trim().split(/\s+/g);
+    while (c.length) {
+      map[keys.length] = s;
+      keys.push(c.shift());
+    }
+    p += s.length + 1;
+  }
+
+  var retObj = {};
+
+  lines.forEach(function(l) {
+    l = l.trim().split(/\s+/g);
+    var o = {};
+    var iface;
+    for (var i = 0; i < l.length; ++i) {
+      var s = map[i];
+
+      //case for the Interface
+      if (s.indexOf('-') === s.length - 1) {
+        iface = l[i].substr(0, l[i].length - 1);
+
+      //case for everything else
+      } else {
+        if (!o[keys[i]]) {
+          o[keys[i].toLowerCase()] = {};
+        }
+        o[keys[i].toLowerCase()][s.toLowerCase()] = l[i];
+      }
+    }
+    retObj[iface] = o;
+  });
+  return(retObj);
+}
+
 module.exports = {
   processStorage: processStorage,
   gaugeOptions: gaugeOptions,
@@ -246,5 +299,6 @@ module.exports = {
   corePercent: corePercent,
   totalCores: totalCores,
   hardwareInfo: hardwareInfo,
-  uptimeInfo: uptimeInfo
+  uptimeInfo: uptimeInfo,
+  networkInfo: networkInfo
 };

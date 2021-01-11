@@ -1,7 +1,6 @@
 const gauges = require('./assets/js/gauge.min.js');
 const piMonitor = require('./assets/js/raspberrypi_monitor.js');
 const cpuCores = piMonitor.totalCores();
-const netStat = require('./assets/js/net_stats.js');
 
 let timeOut = 1000;
 let historyCount = 100;
@@ -56,7 +55,7 @@ function uptimeInfo() {
 }
 
 function networkInfo() {
-  const netInfo = netStat.raw();
+  const netInfo = piMonitor.networkInfo();
   const iFaces = Object.keys(netInfo);
   $("#network").html('');
   for (const x of iFaces) {
