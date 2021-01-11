@@ -61,7 +61,7 @@ function networkInfo() {
   for (const x of iFaces) {
     const sent = Math.round(piMonitor.bytesTo(netInfo[x].bytes.transmit) * 100) / 100;
     const received = Math.round(piMonitor.bytesTo(netInfo[x].bytes.transmit) * 100) / 100;
-    let iFace = '<li class="list-group-item"><strong>Sent:</strong> ' + sent + ' GiB</li><li class="list-group-item"><strong>Received:</strong> ' + received + ' GiB</li>';
+    let iFace = '<li class="list-group-item"><strong>Sent:</strong> ' + sent + 'GiB</li><li class="list-group-item"><strong>Received:</strong> ' + received + 'GiB</li>';
     if ($("#iface_" + x).length) {
       $("#iface_" + x).html(iFace);
     } else {
