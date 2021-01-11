@@ -230,8 +230,8 @@ function _readableUptime(value){
   const minutes = Math.floor(remainder / 60);
   const seconds = Math.floor(remainder % 60);
   if (years != 0) uptimeString += years + " y ";
-  if (years != 0 || days != 0) uptimeString += days + " d ";
-  if (days != 0 || hours != 0) uptimeString += hours + " h ";
+  uptimeString += days + " d ";
+  uptimeString += hours + " h ";
   uptimeString += minutes  + " m ";
   uptimeString += seconds + " s";
   return(uptimeString);
