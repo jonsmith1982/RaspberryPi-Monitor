@@ -41,9 +41,15 @@
         <hr />
         <div id="hdd_graphs">
           <h2><img src="./assets/images/usb_hdd.png" alt="" /> USB HDD</h2>
-          <label id="hdd_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of 0.57GiB</label>
+          <code>/dev/sda1</code>
+          <label id="hdd1_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of 0.57GiB</label>
+          <div class="progress mb-3" style="height:20px;">
+            <div id="hdd1_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+          </div>
+          <code>/dev/sda2</code>
+          <label id="hdd2_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of 0.57GiB</label>
           <div class="progress" style="height:20px;">
-            <div id="hdd_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+            <div id="hdd2_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
           </div>
         </div>
       </div>
@@ -79,9 +85,20 @@
         <hr />
         <div id="sd_graphs">
           <h2><img src="./assets/images/sd.png" alt="" /> SD Card</h2>
-          <label id="sd_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of 0.57GiB</label>
-          <div class="progress" style="height:20px;">
-            <div id="sd_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+          <code>/dev/mmcblkp1</code>
+          <label id="sd1_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of 0.57GiB</label>
+          <div class="progress mb-3" style="height:20px;">
+            <div id="sd1_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+          </div>
+          <code>/dev/mmcblkp2</code>
+          <label id="sd2_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of 0.57GiB</label>
+          <div class="progress mb-3" style="height:20px;">
+            <div id="sd2_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
+          </div>
+          <code>/dev/mmcblkp3</code>
+          <label id="sd3_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of 0.57GiB</label>
+          <div class="progress mb-3" style="height:20px;">
+            <div id="sd3_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div>
           </div>
         </div>
       </div>
