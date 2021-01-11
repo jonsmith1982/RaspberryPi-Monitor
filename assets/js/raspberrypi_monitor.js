@@ -119,8 +119,8 @@ function _memory_statistics(meminfo) {
   let memBuffers = meminfo.buffers;
   let memTotal = meminfo.memtotal;
   
-  let memFreeUnits = _bytesTo((memFree + memCached + memBuffers) * 1024);
-  let memTotalUnits = _bytesTo(memTotal * 1024);
+  let memFreeUnits = bytesTo((memFree + memCached + memBuffers) * 1024);
+  let memTotalUnits = bytesTo(memTotal * 1024);
   let memUsedPercent = ((memTotal - (memFree + memCached + memBuffers)) / memTotal) * 100;
   
   return([memFreeUnits, memTotalUnits, memUsedPercent]);
@@ -131,8 +131,8 @@ function _swap_statistics(meminfo) {
   let swapFree = meminfo.swapfree;
   let swapCached = meminfo.swapcached;
   
-  let swapFreeUnits = _bytesTo((swapFree + swapCached) * 1024);
-  let swapTotalUnits = _bytesTo(swapTotal * 1024);
+  let swapFreeUnits = bytesTo((swapFree + swapCached) * 1024);
+  let swapTotalUnits = bytesTo(swapTotal * 1024);
   let swapUsedPercent = ((swapTotal - (swapFree + swapCached)) / swapTotal) * 100
   
   return([swapFreeUnits, swapTotalUnits, swapUsedPercent]);
@@ -158,7 +158,7 @@ function _formatParsedProcMeminfo(meminfo) {
   return data;
 }
 
-function _bytesTo(bytes) {
+function bytesTo(bytes) {
   var GiB = 1073741824;
   bytes /= GiB;
   return(bytes);
@@ -300,5 +300,6 @@ module.exports = {
   totalCores: totalCores,
   hardwareInfo: hardwareInfo,
   uptimeInfo: uptimeInfo,
-  networkInfo: networkInfo
+  networkInfo: networkInfo,
+  bytesTo: bytesTo
 };
