@@ -58,10 +58,14 @@ function uptimeInfo() {
 function networkInfo() {
   const netInfo = piMonitor.networkInfo();
   const iFaces = Object.keys(netInfo);
-  $("#network").html('');
   for (const x of iFaces) {
-    let iFace = '<h3>' + x + '</h3><ul id="iface_' + x + '" class="list-group tiny mb-3"><li class="list-group-item"><strong>Sent:</strong> ' + netInfo[x].bytes.transmit + '</li><li class="list-group-item"><strong>Received:</strong> ' + netInfo[x].bytes.receive + '</li></ul>';
-    $("#network").append(iFace);
+    if ($("#iface_" + x).length) {
+      let iFace = '<li class="list-group-item"><strong>Sent:</strong> ' + netInfo[x].bytes.transmit + '</li><li class="list-group-item"><strong>Received:</strong> ' + netInfo[x].bytes.receive + '</li>';
+      $("#iface_" + x).html(iFace);
+    } else {
+      let iFace = '<h3>' + x + '</h3><ul id="iface_' + x + '" class="list-group tiny mb-3"><li class="list-group-item"><strong>Sent:</strong> ' + netInfo[x].bytes.transmit + '</li><li class="list-group-item"><strong>Received:</strong> ' + netInfo[x].bytes.receive + '</li></ul>';
+      $("#network").append(iFace);
+    }
   }
   setTimeout(networkInfo, timeOut);
 }
