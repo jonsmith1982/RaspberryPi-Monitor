@@ -65,7 +65,7 @@ function networkInfo() {
     if ($("#iface_" + x).length) {
       $("#iface_" + x).html(iFace);
     } else {
-      iFace = '<h3>' + x + '</h3><ul id="iface_' + x + '" class="list-group tiny mb-3">' + iFace + '</ul>';
+      iFace = '<code>' + x + '</code><ul id="iface_' + x + '" class="list-group tiny mb-3">' + iFace + '</ul>';
       $("#network").append(iFace);
     }
   }
@@ -74,7 +74,14 @@ function networkInfo() {
 
 function diskInfo() {
   const disks = piMonitor.diskInfo();
-  //console.log(disks);
+  for (const x of Object.keys(disks)) {
+    if (disks[x].type === 'disk') {
+      //console.log('HDD: ' + x);
+    }
+    else if (disks[x].type === 'part') {
+      //console.log('Partition: ' + x);
+    }
+  }
 }
 
 $(document).ready(function() {
