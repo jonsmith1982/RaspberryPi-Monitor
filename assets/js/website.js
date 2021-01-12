@@ -73,7 +73,8 @@ function networkInfo() {
 }
 
 function diskInfo() {
-  // lsblk -bPo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,RM,LABEL,MODEL,OWNER
+  const disks = piMonitor.diskInfo();
+  //console.log(disks);
 }
 
 $(document).ready(function() {
@@ -81,6 +82,7 @@ $(document).ready(function() {
   versionInfo();
   uptimeInfo();
   networkInfo();
+  diskInfo();
 
   for (const x of Array(cpuCores).keys()) {
     let cpuGaugeOptions = piMonitor.gaugeOptions;

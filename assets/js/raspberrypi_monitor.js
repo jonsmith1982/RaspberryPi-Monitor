@@ -1,5 +1,6 @@
 const fs = require('fs');
 const os = require('os');
+const execSync = require('child_process').execSync;
 
 const gaugeOptions = {
   width: 75,
@@ -274,6 +275,29 @@ function _parseProcNetDev() {
   return(retObj);
 }
 
+function diskInfo() {
+  const output = execSync('export LC_ALL=C; lsblk -bPo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,RM,LABEL,MODEL,OWNER,GROUP 2>/dev/null; unset LC_ALL');
+  return(_parseLsBlk(output.toString()));
+}
+
+function _parseLsBlk(output) {
+  let disks = {};
+  let lines = output.split(/\n/g);
+  lines.pop();
+  lines.forEach(function (line) {
+    let disk = {};
+    line = line.replace(/"/g, '');
+    const attrs = line.split(/\s/g);
+    const name = attrs.shift().split(/=/)[1];
+    attrs.forEach(function (attr) {
+      let data = attr.split(/=/);
+      disk[data[0].toLowerCase()] = data[1];
+    });
+    disks[name] = disk;
+  });
+  return(disks);
+}
+
 module.exports = {
   processStorage: processStorage,
   gaugeOptions: gaugeOptions,
@@ -285,5 +309,6 @@ module.exports = {
   hardwareInfo: hardwareInfo,
   uptimeInfo: uptimeInfo,
   networkInfo: networkInfo,
-  bytesTo: bytesTo
+  bytesTo: bytesTo,
+  diskInfo: diskInfo
 };
