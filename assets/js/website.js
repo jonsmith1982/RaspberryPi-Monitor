@@ -74,14 +74,25 @@ function networkInfo() {
 
 function diskInfo() {
   const disks = piMonitor.diskInfo();
+  $("#part_graphs, #hdd_graphs").html('');
   for (const x of Object.keys(disks)) {
     if (disks[x].type === 'disk') {
-      //console.log('HDD: ' + x);
+      let total = Math.round(piMonitor.bytesTo(disks[x].size) * 100) / 100;
+      let hd = '<div id="disk_' + x + '"><strong class="tiny">Device:</strong> <code>' + disks[x].path + '</code><label id="' + x + '_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of ' + total + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + x + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div></div></div>';
+      $("#hdd_graphs").append(hd);
     }
     else if (disks[x].type === 'part') {
-      //console.log('Partition: ' + x);
+      if (disks[x].mountpoint !== '[SWAP]') {
+        let total = Math.round(piMonitor.bytesTo(disks[x].size) * 100) / 100;
+        let available = Math.round(piMonitor.bytesTo(disks[x].size - disks[x].fsused) * 100) / 100;
+        let used = Math.round(piMonitor.bytesTo(disks[x].fsused) * 100) / 100;
+        let percent = Math.ceil(((disks[x].size - disks[x].fsused) / disks[x].size) * 100);
+        let part = '<div id="part_' + x + '"><strong class="tiny">Mount Point:</strong> <code>' + disks[x].mountpoint + '</code><label id="' + x + '_label" class="tiny"><strong>Used:</strong> ' + used + 'GiB <strong>Available:</strong> ' + available + 'GiB of ' + total + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + x + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + percent + '%;" aria-valuenow="' + percent + '" aria-valuemin="0" aria-valuemax="100">' + percent + '%</div></div></div>';
+        $("#part_graphs").append(part);
+      }
     }
   }
+  setTimeout(diskInfo, timeOut);
 }
 
 $(document).ready(function() {

@@ -276,7 +276,7 @@ function _parseProcNetDev() {
 }
 
 function diskInfo() {
-  const output = execSync('export LC_ALL=C; lsblk -bPo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,RM,LABEL,MODEL,OWNER,GROUP 2>/dev/null; unset LC_ALL');
+  const output = execSync('export LC_ALL=C; lsblk -bPo NAME,TYPE,SIZE,FSTYPE,MOUNTPOINT,UUID,ROTA,RO,RM,LABEL,MODEL,OWNER,GROUP,FSUSED,PATH 2>/dev/null; unset LC_ALL');
   return(_parseLsBlk(output.toString()));
 }
 
