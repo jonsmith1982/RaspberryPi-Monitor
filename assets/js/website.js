@@ -2,6 +2,16 @@ const gauges = require('./assets/js/gauge.min.js');
 const piMonitor = require('./assets/js/raspberrypi_monitor.js');
 const cpuCores = piMonitor.totalCores();
 
+const li = function(l, v) {
+  let label = l !== null ? '<strong>' + l + '</strong>' : ''
+  return('<li class="list-group-item">' + label + ' ' + v + '</li>');
+};
+
+const progress = function(s, n, l, c, u, a, t, p) {
+  let code = c !== null ? '<strong class="tiny">' + l + ':</strong> <code>' + c + '</code>' : '';
+  return('<div id="' + s + '_' + n + '">' + code + '<label id="' + n + '_label" class="tiny"><strong>Used:</strong> ' + u + 'GiB <strong>Available:</strong> ' + a + 'GiB of ' + t + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + n + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + p + '%;" aria-valuenow="' + p + '" aria-valuemin="0" aria-valuemax="100">' + p + '%</div></div></div>');
+};
+
 let timeOut = 1000;
 let historyCount = 100;
 
@@ -15,15 +25,12 @@ function cpuUsage(percent, seconds, coreIndex) {
 function memoryStatistics() {
   let statistics = piMonitor.memoryStatistics();
   ['mem', 'swap'].forEach(function (t) {
-    let usedPercent = Math.ceil(statistics[`${t}UsedPercent`]);
-    let usedGB = Math.round((statistics[`${t}Total`] * (statistics[`${t}UsedPercent`] / 100)) * 100) / 100;
-    let freeGB = Math.round(statistics[`${t}Free`] * 100) / 100;
-    let totalGB = Math.round(statistics[`${t}Total`] * 100) / 100;
-    $("#" + t + "_label").html(`<strong>Used:</strong> ${usedGB}GiB <strong>Available:</strong> ${freeGB}GiB of ${totalGB}GiB`);
-    piMonitor.processStorage(t + '_stats', usedPercent);
-    $("#" + t + "_gauge").css("width", usedPercent + "%");
-    $("#" + t + "_gauge").text(usedPercent + "%");
-    $("#" + t + "_gauge").attr("aria-valuenow", usedPercent);
+    let percent = Math.ceil(statistics[`${t}UsedPercent`]);
+    let used = Math.round((statistics[`${t}Total`] * (statistics[`${t}UsedPercent`] / 100)) * 100) / 100;
+    let free = Math.round(statistics[`${t}Free`] * 100) / 100;
+    let total = Math.round(statistics[`${t}Total`] * 100) / 100;
+    piMonitor.processStorage(t + '_stats', percent);
+    $("#" + t + "_graphs").html(progress(t, t, null, null, used, free, total, percent));
   });
   setTimeout(memoryStatistics, timeOut);
 }
@@ -37,7 +44,6 @@ function cpuTemperature() {
 
 function versionInfo() {
   let hInfo = piMonitor.hardwareInfo();
-  let li = function(label, value) {return(`<li class="list-group-item"><strong>${label}:</strong> ${value}</li>`)};
   $("#version_info").append(li('Chipset', hInfo.hardware));
   if (hInfo.revision in piMonitor.revisions) {
     let rInfo = piMonitor.revisions[hInfo.revision];
@@ -51,7 +57,7 @@ function versionInfo() {
 
 function uptimeInfo() {
   let uptime = piMonitor.uptimeInfo();
-  $("#uptime").html('<li class="list-group-item">' + uptime + '</li>');
+  $("#uptime").html(li(null, uptime));
   setTimeout(uptimeInfo, timeOut);
 }
 
@@ -61,7 +67,7 @@ function networkInfo() {
   for (const x of iFaces) {
     const sent = Math.round(piMonitor.bytesTo(netInfo[x].bytes.transmit) * 100) / 100;
     const received = Math.round(piMonitor.bytesTo(netInfo[x].bytes.transmit) * 100) / 100;
-    let iFace = '<li class="list-group-item"><strong>Sent:</strong> ' + sent + 'GiB</li><li class="list-group-item"><strong>Received:</strong> ' + received + 'GiB</li>';
+    let iFace = li('Sent', sent + 'GiB') + li('Received', received + 'GiB');
     if ($("#iface_" + x).length) {
       $("#iface_" + x).html(iFace);
     } else {
@@ -78,7 +84,10 @@ function diskInfo() {
   for (const x of Object.keys(disks)) {
     if (disks[x].type === 'disk') {
       let total = Math.round(piMonitor.bytesTo(disks[x].size) * 100) / 100;
-      let hd = '<div id="disk_' + x + '"><strong class="tiny">Device:</strong> <code>' + disks[x].path + '</code><label id="' + x + '_label" class="tiny"><strong>Used:</strong> 0GiB <strong>Available:</strong> 0.57GiB of ' + total + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + x + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: 30%;" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100">30%</div></div></div>';
+      let available = 0;
+      let used = 0;
+      let percent = 30;
+      let hd = progress('disk', x, 'Device', disks[x].path, used, available, total, percent);
       $("#hdd_graphs").append(hd);
     }
     else if (disks[x].type === 'part') {
@@ -87,7 +96,7 @@ function diskInfo() {
         let available = Math.round(piMonitor.bytesTo(disks[x].size - disks[x].fsused) * 100) / 100;
         let used = Math.round(piMonitor.bytesTo(disks[x].fsused) * 100) / 100;
         let percent = Math.ceil(((disks[x].size - disks[x].fsused) / disks[x].size) * 100);
-        let part = '<div id="part_' + x + '"><strong class="tiny">Mount Point:</strong> <code>' + disks[x].mountpoint + '</code><label id="' + x + '_label" class="tiny"><strong>Used:</strong> ' + used + 'GiB <strong>Available:</strong> ' + available + 'GiB of ' + total + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + x + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + percent + '%;" aria-valuenow="' + percent + '" aria-valuemin="0" aria-valuemax="100">' + percent + '%</div></div></div>';
+        let part = progress('part', x, 'Mount Point', disks[x].path, used, available, total, percent);
         $("#part_graphs").append(part);
       }
     }
