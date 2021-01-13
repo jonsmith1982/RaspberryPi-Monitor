@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="stylesheet" href="./assets/css/bootstrap.min.css" >
-    <link rel="stylesheet" href="./assets/css/website.css" >
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="../assets/css/website.css" >
 
     <title>RaspberryPi Monitor</title>
     
@@ -15,7 +15,7 @@
   
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded">
       <h1 class="navbar-brand" href="#">
-      <img src="./assets/images/logo.png" width="30" height="30" alt="" loading="lazy" /> RaspberryPi Monitor</h1>
+      <img src="../assets/images/logo.png" width="30" height="30" alt="" loading="lazy" /> RaspberryPi Monitor</h1>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -34,50 +34,51 @@
     <div class="row mt-3 mb-3">
       
       <div class="col-sm-12 col-md-4 border border-top-0 border-bottom-0">
-        <h2><img src="./assets/images/version.png" alt="" /> Version</h2>
+        <h2><img src="../assets/images/version.png" alt="" /> Version</h2>
         <ul id="version_info" class="list-group tiny">
         </ul>
         <hr />
-        <h2><img src="./assets/images/cpu.png" alt="" /> CPU</h2>
+        <h2><img src="../assets/images/cpu.png" alt="" /> CPU</h2>
         <div id="cpu_graphs" class="row"></div>
         <hr />
-        <h2><img src="./assets/images/usb_hdd.png" alt="" /> Hard Disks</h2>
+        <h2><img src="../assets/images/usb_hdd.png" alt="" /> Hard Disks</h2>
         <div id="hdd_graphs"></div>
       </div>
       
       <div class="col-sm-6 col-md-4">
-        <h2><img src="./assets/images/uptime.png" alt="" /> Uptime</h2>
+        <h2><img src="../assets/images/uptime.png" alt="" /> Uptime</h2>
         <ul id="uptime" class="list-group tiny">
         </ul>
         <hr />
-        <h2><img src="./assets/images/cpu_temp.png" alt="" /> Temperature</h2>
+        <h2><img src="../assets/images/cpu_temp.png" alt="" /> Temperature</h2>
         <div id="temp_graphs" class="text-center"><canvas id="temp_gauge"></canvas></div>
         <hr />
-        <h2><img src="./assets/images/memory.png" alt="" /> Memory</h2>
+        <h2><img src="../assets/images/memory.png" alt="" /> Memory</h2>
         <div id="mem_graphs"></div>
         <hr />
-        <h2><img src="./assets/images/swap.png" alt="" /> Swap</h2>
+        <h2><img src="../assets/images/swap.png" alt="" /> Swap</h2>
         <div id="swap_graphs"></div>
         <hr />
-        <h2><img src="./assets/images/wifi.png" alt="" /> Wifi</h2>
+        <h2><img src="../assets/images/wifi.png" alt="" /> Wifi</h2>
         <div id="wifi_graphs"></div>
       </div>
       
       <div class="col-sm-6 col-md-4 border border-top-0 border-bottom-0">
         <div id="net_info">
-          <h2><img src="./assets/images/network.png" alt="" /> Network</h2>
+          <h2><img src="../assets/images/network.png" alt="" /> Network</h2>
           <div id="network"></div>
         </div>
         <hr />
-        <h2><img src="./assets/images/sd.png" alt="" /> Partitions</h2>
+        <h2><img src="../assets/images/sd.png" alt="" /> Partitions</h2>
         <div id="part_graphs"></div>
       </div>
       
     </div>
     
-    <script>window.$ = window.jQuery = require('./assets/js/jquery-3.5.1.slim.min.js');</script>
-    <script src="./assets/js/bootstrap.bundle.min.js"></script>
-    <script src="./assets/js/website.js"></script>
+    <script>window.$ = window.jQuery = require('../assets/js/jquery-3.5.1.slim.min.js');</script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/website.js"></script>
+    <script src="../assets/js/overview.js"></script>
   </div>  
 </body>
 </html>
