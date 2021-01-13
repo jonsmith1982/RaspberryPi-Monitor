@@ -2,9 +2,10 @@ const gauges = require('./assets/js/gauge.min.js');
 const piMonitor = require('./assets/js/raspberrypi_monitor.js');
 const cpuCores = piMonitor.totalCores();
 
-const li = function(l, v) {
-  let label = l !== null ? '<strong>' + l + '</strong>' : ''
-  return('<li class="list-group-item">' + label + ' ' + v + '</li>');
+const li = function(l, v, c = false) {
+  let label = l !== null ? '<strong>' + l + ':</strong> ' : ''
+  let value = c ? '<code>' + v + '</code>' : v;
+  return('<li class="list-group-item">' + label +  value + '</li>');
 };
 
 const progress = function(s, n, l, c, u, a, t, p) {
@@ -84,11 +85,8 @@ function diskInfo() {
   for (const x of Object.keys(disks)) {
     if (disks[x].type === 'disk') {
       let total = Math.round(piMonitor.bytesTo(disks[x].size) * 100) / 100;
-      let available = 0;
-      let used = 0;
-      let percent = 30;
-      let hd = progress('disk', x, 'Device', disks[x].path, used, available, total, percent);
-      $("#hdd_graphs").append(hd);
+      let html = '<ul id="disk_' + x + '" class="list-group tiny">' + li('Device', disks[x].path, true) + li('Size', total + 'GiB', true) + li('Owner/Group', disks[x].owner + '/' + disks[x].group, true) + '</ul>';
+      $("#hdd_graphs").append(html);
     }
     else if (disks[x].type === 'part') {
       if (disks[x].mountpoint !== '[SWAP]') {
@@ -110,7 +108,7 @@ function wifiInfo() {
   if (ssid.length === 0) {
     $("#wifi_graphs").html('<div class="tiny">No wifi connections in progress</div>');
   } else {
-    $("#wifi_graphs").html('<ul class="list-group tiny">' + li(conn[ssid[0]].device, ssid[0]) + '</ul>');
+    $("#wifi_graphs").html('<ul class="list-group tiny">' + li(conn[ssid[0]].device, ssid[0], true) + '</ul>');
   }
   setTimeout(wifiInfo, timeOut);
 }
