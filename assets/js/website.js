@@ -118,8 +118,6 @@ $(document).ready(function() {
   versionInfo();
   uptimeInfo();
   networkInfo();
-  diskInfo();
-  wifiInfo();
 
   for (const x of Array(cpuCores).keys()) {
     let cpuGaugeOptions = piMonitor.gaugeOptions;
@@ -141,5 +139,7 @@ $(document).ready(function() {
   cpuTemperature();
   
   memoryStatistics();
+  diskInfo();
+  wifiInfo();
   
 });
