@@ -298,6 +298,27 @@ function _parseLsBlk(output) {
   return(disks);
 }
 
+function wifiInfo() {
+  const output = execSync('export LC_ALL=C; nmcli connection show 2>/dev/null; unset LC_ALL');
+  return(_parseNmCli(output.toString()));
+}
+
+function _parseNmCli(output) {
+  let conn = {};
+  let lines = output.split(/\n/g);
+  lines.pop(); lines.shift();
+  lines.forEach(function (line) {
+    let attrs = line.split(/\s{2,}/g);
+    if (attrs[2] === 'wifi')
+      conn[attrs[0]] = {
+        uuid: attrs[1],
+        type: attrs[2],
+        device: attrs[3]
+      };
+  });
+  return(conn);
+}
+
 module.exports = {
   processStorage: processStorage,
   gaugeOptions: gaugeOptions,
@@ -310,5 +331,6 @@ module.exports = {
   uptimeInfo: uptimeInfo,
   networkInfo: networkInfo,
   bytesTo: bytesTo,
-  diskInfo: diskInfo
+  diskInfo: diskInfo,
+  wifiInfo: wifiInfo
 };

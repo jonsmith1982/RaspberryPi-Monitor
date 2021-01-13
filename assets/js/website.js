@@ -104,12 +104,24 @@ function diskInfo() {
   setTimeout(diskInfo, timeOut);
 }
 
+function wifiInfo() {
+  const conn = piMonitor.wifiInfo();
+  const ssid = Object.keys(conn);
+  if (ssid.length === 0) {
+    $("#wifi_graphs").html('<div class="tiny">No wifi connections in progress</div>');
+  } else {
+    $("#wifi_graphs").html('<ul class="list-group tiny">' + li(conn[ssid[0]].device, ssid[0]) + '</ul>');
+  }
+  setTimeout(wifiInfo, timeOut);
+}
+
 $(document).ready(function() {
   
   versionInfo();
   uptimeInfo();
   networkInfo();
   diskInfo();
+  wifiInfo();
 
   for (const x of Array(cpuCores).keys()) {
     let cpuGaugeOptions = piMonitor.gaugeOptions;
