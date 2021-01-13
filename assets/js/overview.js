@@ -142,4 +142,6 @@ $(document).ready(function() {
   diskInfo();
   wifiInfo();
   
+  $("section").removeClass('d-none');
+  
 });

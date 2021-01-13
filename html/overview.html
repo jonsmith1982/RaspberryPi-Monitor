@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Security-Policy" content="script-src 'self' 'unsafe-inline';" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="../assets/css/bootstrap.min.css" >
+    <link rel="stylesheet" href="../assets/css/website.css" >
+
+    <title>RaspberryPi Monitor</title>
+    
+</head>
+<body>
+  <div class="container">
+  
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded">
+      <h1 class="navbar-brand" href="#">
+      <img src="../assets/images/logo.png" width="30" height="30" alt="" loading="lazy" /> RaspberryPi Monitor</h1>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navigation">
+        <ul class="navbar-nav">
+          <li class="nav-item active">
+            <a class="nav-link" href="./overview.html">Overview <span class="sr-only">(current)</span></a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="./statistics.html">Statistics</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+
+    <div class="row mt-3 mb-3">
+      
+      <div class="col-sm-12 col-md-4 border border-top-0 border-bottom-0">
+        <section class="d-none">
+          <h2><img src="../assets/images/version.png" alt="" /> Version</h2>
+          <ul id="version_info" class="list-group tiny"></ul>
+          <hr />
+        </section>
+        <section class="d-none">
+          <h2><img src="../assets/images/cpu.png" alt="" /> CPU</h2>
+          <div id="cpu_graphs" class="row"></div>
+          <hr />
+        </section>
+        <section class="d-none">
+          <h2><img src="../assets/images/usb_hdd.png" alt="" /> Hard Disks</h2>
+          <div id="hdd_graphs"></div>
+        </section>
+      </div>
+      
+      <div class="col-sm-6 col-md-4">
+        <section class="d-none">
+          <h2><img src="../assets/images/uptime.png" alt="" /> Uptime</h2>
+          <ul id="uptime" class="list-group tiny"></ul>
+          <hr />
+        </section>
+        <section class="d-none">
+          <h2><img src="../assets/images/cpu_temp.png" alt="" /> Temperature</h2>
+          <div id="temp_graphs" class="text-center"><canvas id="temp_gauge"></canvas></div>
+          <hr />
+        </section>
+        <section class="d-none">
+          <h2><img src="../assets/images/memory.png" alt="" /> Memory</h2>
+          <div id="mem_graphs"></div>
+          <hr />
+        </section>
+        <section class="d-none">
+          <h2><img src="../assets/images/swap.png" alt="" /> Swap</h2>
+          <div id="swap_graphs"></div>
+          <hr />
+        </section>
+        <section class="d-none">
+          <h2><img src="../assets/images/wifi.png" alt="" /> Wifi</h2>
+          <div id="wifi_graphs"></div>
+        </section>
+      </div>
+      
+      <div class="col-sm-6 col-md-4 border border-top-0 border-bottom-0">
+        <section class="d-none">
+          <div id="net_info">
+            <h2><img src="../assets/images/network.png" alt="" /> Network</h2>
+            <div id="network"></div>
+          </div>
+          <hr />
+        </section>
+        <section class="d-none">
+          <h2><img src="../assets/images/sd.png" alt="" /> Partitions</h2>
+          <div id="part_graphs"></div>
+        </section>
+      </div>
+      
+    </div>
+    
+    <script>window.$ = window.jQuery = require('../assets/js/jquery-3.5.1.slim.min.js');</script>
+    <script src="../assets/js/bootstrap.bundle.min.js"></script>
+    <script src="../assets/js/website.js"></script>
+    <script src="../assets/js/overview.js"></script>
+  </div>  
+</body>
+</html>
