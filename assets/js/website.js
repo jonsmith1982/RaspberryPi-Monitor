@@ -96,7 +96,7 @@ function diskInfo() {
         let available = Math.round(piMonitor.bytesTo(disks[x].size - disks[x].fsused) * 100) / 100;
         let used = Math.round(piMonitor.bytesTo(disks[x].fsused) * 100) / 100;
         let percent = Math.ceil(((disks[x].size - disks[x].fsused) / disks[x].size) * 100);
-        let part = progress('part', x, 'Mount Point', disks[x].path, used, available, total, percent);
+        let part = progress('part', x, 'Mount Point', disks[x].mountpoint, used, available, total, percent);
         $("#part_graphs").append(part);
       }
     }
