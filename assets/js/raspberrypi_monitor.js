@@ -95,6 +95,12 @@ function processStorage(key, value) {
   sessionStorage.setItem(key, storage);
 }
 
+function retreiveStorage(key) {
+  let storage = sessionStorage.getItem(key) ? sessionStorage.getItem(key) : '';
+  storage = !Array.isArray(storage) ? storage.split(',') : storage;
+  return(storage);
+}
+
 function cpuTemp() {
   let temperature = fs.readFileSync('/sys/class/thermal/thermal_zone0/temp') / 1000;
   return(temperature);
@@ -321,6 +327,7 @@ function _parseNmCli(output) {
 
 module.exports = {
   processStorage: processStorage,
+  retreiveStorage: retreiveStorage,
   gaugeOptions: gaugeOptions,
   revisions: revisions,
   cpuTemp: cpuTemp,
