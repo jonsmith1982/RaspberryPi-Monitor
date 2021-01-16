@@ -14,7 +14,7 @@ const progress = function(s, n, l, c, u, a, t, p) {
 };
 
 let timeOut = 1000;
-let historyCount = 100;
+let historyCount = 60;
 
 function cpuUsage(percent, seconds, coreIndex) {
   let cpuPercent = Math.ceil(percent);
