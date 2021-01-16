@@ -1,7 +1,7 @@
 const piMonitor = require('../assets/js/raspberrypi_monitor.js');
 const cpuCores = piMonitor.totalCores();
 
-function cpuDataSet() {
+function cpuGraphData() {
   let data = [];
   for (const x of Array(cpuCores).keys()) {
     data.push(piMonitor.graphStorage('cpu_stats_' + x));
@@ -9,18 +9,18 @@ function cpuDataSet() {
   return(data);
 }
 
-function tempDataSet() {
+function tempGraphData() {
   let data = [piMonitor.graphStorage('cpu_temp')];
   return(data);
 }
 
-function memDataSet() {
+function memGraphData() {
   let data = [piMonitor.graphStorage('mem_stats'), piMonitor.graphStorage('swap_stats')];
   return(data);
 }
 
 $(document).ready(function() {
-  $.plot("#cpu_usage_graph", cpuDataSet());
-  $.plot("#cpu_temp_graph", tempDataSet());
-  $.plot("#mem_usage_graph", memDataSet());
+  $.plot("#cpu_usage_graph", cpuGraphData());
+  $.plot("#cpu_temp_graph", tempGraphData());
+  $.plot("#mem_usage_graph", memGraphData());
 });
