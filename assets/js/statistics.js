@@ -4,8 +4,7 @@ const cpuCores = piMonitor.totalCores();
 function cpuDataSet() {
   let data = [];
   for (const x of Array(cpuCores).keys()) {
-    let coreData = piMonitor.graphStorage('cpu_stats_' + x);
-    data.push(coreData);
+    data.push(piMonitor.graphStorage('cpu_stats_' + x));
   }
   return(data);
 }
