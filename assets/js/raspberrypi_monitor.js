@@ -95,10 +95,15 @@ function processStorage(key, value) {
   sessionStorage.setItem(key, storage);
 }
 
-function retreiveStorage(key) {
+function graphStorage(key) {
   let storage = sessionStorage.getItem(key) ? sessionStorage.getItem(key) : '';
-  storage = !Array.isArray(storage) ? storage.split(',') : storage;
-  return(storage);
+  let data = [], i = 0;
+  for (const x of storage.split(',')) {
+    if (!x) continue;
+    data.push([i, x]);
+    i += 1;
+  }
+  return(data);
 }
 
 function cpuTemp() {
@@ -327,7 +332,7 @@ function _parseNmCli(output) {
 
 module.exports = {
   processStorage: processStorage,
-  retreiveStorage: retreiveStorage,
+  graphStorage: graphStorage,
   gaugeOptions: gaugeOptions,
   revisions: revisions,
   cpuTemp: cpuTemp,
