@@ -10,6 +10,18 @@ function cpuDataSet() {
   return(data);
 }
 
+function tempDataSet() {
+  let data = [piMonitor.graphStorage('cpu_temp')];
+  return(data);
+}
+
+function memDataSet() {
+  let data = [piMonitor.graphStorage('mem_stats'), piMonitor.graphStorage('swap_stats')];
+  return(data);
+}
+
 $(document).ready(function() {
-  $.plot("#placeholder", cpuDataSet());
+  $.plot("#cpu_usage_graph", cpuDataSet());
+  $.plot("#cpu_temp_graph", tempDataSet());
+  $.plot("#mem_usage_graph", memDataSet());
 });
