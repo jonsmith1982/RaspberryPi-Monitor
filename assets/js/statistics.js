@@ -1,6 +1,9 @@
 const piMonitor = require('../assets/js/raspberrypi_monitor.js');
 const cpuCores = piMonitor.totalCores();
 
+let timeOut = 1000;
+let historyCount = 60;
+
 function cpuGraphData() {
   let data = [];
   for (const x of Array(cpuCores).keys()) {
@@ -36,7 +39,10 @@ let options = {
     }
   },
   xaxis: {
-    show: true
+    show: false,
+    autoScale: "none",
+    min: 0,
+    max: historyCount
   },
   series: {
     lines: {
@@ -50,8 +56,77 @@ let options = {
   }
 };
 
+function cpuUsage(percent, seconds, coreIndex) {
+  let cpuPercent = Math.ceil(percent);
+  piMonitor.processStorage('cpu_stats_' + coreIndex, cpuPercent);
+  piMonitor.corePercent(coreIndex, timeOut, cpuUsage);
+}
+
+function memoryStatistics() {
+  let statistics = piMonitor.memoryStatistics();
+  ['mem', 'swap'].forEach(function (t) {
+    let percent = Math.ceil(statistics[`${t}UsedPercent`]);
+    piMonitor.processStorage(t + '_stats', percent);
+  });
+  setTimeout(memoryStatistics, timeOut);
+}
+
+function cpuTemperature() {
+  let temperature = piMonitor.cpuTemp();
+  piMonitor.processStorage('cpu_temp', temperature);
+  setTimeout(cpuTemperature, timeOut);
+}
+
 $(document).ready(function() {
-  $.plot("#cpu_usage_graph", cpuGraphData(), options);
-  $.plot("#cpu_temp_graph", tempGraphData(), options);
-  $.plot("#mem_usage_graph", memGraphData(), options);
+  
+  for (const x of Array(cpuCores).keys()) {
+    piMonitor.corePercent(x, timeOut, cpuUsage);
+  }
+  let cpuData = cpuGraphData();
+  let cpuGraph = $.plot("#cpu_usage_graph", cpuData, options);
+  cpuGraphUpdate();
+  function cpuGraphUpdate() {
+    if (cpuData.length < historyCount) {
+      cpuData = cpuGraphData();
+      cpuGraph = $.plot("#cpu_usage_graph", cpuData, options);
+    } else {
+      cpuData = cpuGraphData();
+      cpuGraph.setData(cpuData);
+      cpuGraph.draw();
+    }
+    setTimeout(cpuGraphUpdate, timeOut);
+  }
+  
+  cpuTemperature();
+  let tempData = tempGraphData();
+  let tempGraph = $.plot("#cpu_temp_graph", tempData, options);
+  tempGraphUpdate();
+  function tempGraphUpdate() {
+    if (tempData.length < historyCount) {
+      tempData = tempGraphData();
+      tempGraph = $.plot("#cpu_temp_graph", tempData, options);
+    } else {
+      tempData = memGraphData();
+      tempGraph.setData(tempData);
+      tempGraph.draw();
+    }
+    setTimeout(tempGraphUpdate, timeOut);
+  }
+  
+  memoryStatistics();
+  let memData = memGraphData();
+  let memGraph = $.plot("#mem_usage_graph", memData, options);
+  memGraphUpdate();
+  function memGraphUpdate() {
+    if (memData.length < historyCount) {
+      memData = memGraphData();
+      memGraph = $.plot("#mem_usage_graph", memData, options);
+    } else {
+      memData = memGraphData();
+      memGraph.setData(memData);
+      memGraph.draw();
+    }
+    setTimeout(memGraphUpdate, timeOut);
+  }
+  
 });
