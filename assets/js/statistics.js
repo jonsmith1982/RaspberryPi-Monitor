@@ -42,7 +42,7 @@ let options = {
     show: false,
     autoScale: "none",
     min: 0,
-    max: historyCount
+    max: historyCount - 2
   },
   series: {
     lines: {
