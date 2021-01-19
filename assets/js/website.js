@@ -10,6 +10,11 @@ function navbar(page) {
   return(ul);
 }
 
+function navigation(page) {
+  let nav = '<nav class="navbar navbar-expand-lg navbar-dark bg-dark rounded"><h1 class="navbar-brand" href="./overview.html"><img src="../assets/images/logo.png" width="30" height="30" alt="" loading="lazy" /> RaspberryPi Monitor</h1><button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button><div class="collapse navbar-collapse" id="navigation"><ul class="navbar-nav">' + navbar(page) + '</ul></div></nav>';
+  return(nav);
+}
+
 $(document).ready(function() {
-  $(".navbar-nav").html(navbar(page));
+  $("#content").prepend(navigation(page));
 });
