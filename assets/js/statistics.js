@@ -1,9 +1,6 @@
 const piMonitor = require('../assets/js/raspberrypi_monitor.js');
 const cpuCores = piMonitor.totalCores();
 
-let timeOut = 1000;
-let historyCount = 60;
-
 function cpuGraphData() {
   let data = [];
   for (const x of Array(cpuCores).keys()) {
@@ -42,7 +39,7 @@ let options = {
     show: false,
     autoScale: "none",
     min: 0,
-    max: historyCount - 2
+    max: piMonitor.historyCount - 2
   },
   series: {
     lines: {
@@ -59,7 +56,7 @@ let options = {
 function cpuUsage(percent, seconds, coreIndex) {
   let cpuPercent = Math.ceil(percent);
   piMonitor.processStorage('cpu_stats_' + coreIndex, cpuPercent);
-  piMonitor.corePercent(coreIndex, timeOut, cpuUsage);
+  piMonitor.corePercent(coreIndex, piMonitor.timeOut, cpuUsage);
 }
 
 function memoryStatistics() {
@@ -68,25 +65,25 @@ function memoryStatistics() {
     let percent = Math.ceil(statistics[`${t}UsedPercent`]);
     piMonitor.processStorage(t + '_stats', percent);
   });
-  setTimeout(memoryStatistics, timeOut);
+  setTimeout(memoryStatistics, piMonitor.timeOut);
 }
 
 function cpuTemperature() {
   let temperature = piMonitor.cpuTemp();
   piMonitor.processStorage('cpu_temp', temperature);
-  setTimeout(cpuTemperature, timeOut);
+  setTimeout(cpuTemperature, piMonitor.timeOut);
 }
 
 $(document).ready(function() {
   
   for (const x of Array(cpuCores).keys()) {
-    piMonitor.corePercent(x, timeOut, cpuUsage);
+    piMonitor.corePercent(x, piMonitor.timeOut, cpuUsage);
   }
   let cpuData = cpuGraphData();
   let cpuGraph = $.plot("#cpu_usage_graph", cpuData, options);
   cpuGraphUpdate();
   function cpuGraphUpdate() {
-    if (cpuData.length < historyCount) {
+    if (cpuData.length < piMonitor.historyCount) {
       cpuData = cpuGraphData();
       cpuGraph = $.plot("#cpu_usage_graph", cpuData, options);
     } else {
@@ -94,7 +91,7 @@ $(document).ready(function() {
       cpuGraph.setData(cpuData);
       cpuGraph.draw();
     }
-    setTimeout(cpuGraphUpdate, timeOut);
+    setTimeout(cpuGraphUpdate, piMonitor.timeOut);
   }
   
   cpuTemperature();
@@ -102,7 +99,7 @@ $(document).ready(function() {
   let tempGraph = $.plot("#cpu_temp_graph", tempData, options);
   tempGraphUpdate();
   function tempGraphUpdate() {
-    if (tempData.length < historyCount) {
+    if (tempData.length < piMonitor.historyCount) {
       tempData = tempGraphData();
       tempGraph = $.plot("#cpu_temp_graph", tempData, options);
     } else {
@@ -110,7 +107,7 @@ $(document).ready(function() {
       tempGraph.setData(tempData);
       tempGraph.draw();
     }
-    setTimeout(tempGraphUpdate, timeOut);
+    setTimeout(tempGraphUpdate, piMonitor.timeOut);
   }
   
   memoryStatistics();
@@ -118,7 +115,7 @@ $(document).ready(function() {
   let memGraph = $.plot("#mem_usage_graph", memData, options);
   memGraphUpdate();
   function memGraphUpdate() {
-    if (memData.length < historyCount) {
+    if (memData.length < piMonitor.historyCount) {
       memData = memGraphData();
       memGraph = $.plot("#mem_usage_graph", memData, options);
     } else {
@@ -126,7 +123,7 @@ $(document).ready(function() {
       memGraph.setData(memData);
       memGraph.draw();
     }
-    setTimeout(memGraphUpdate, timeOut);
+    setTimeout(memGraphUpdate, piMonitor.timeOut);
   }
   
 });

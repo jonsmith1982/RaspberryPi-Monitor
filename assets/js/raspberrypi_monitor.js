@@ -2,6 +2,9 @@ const fs = require('fs');
 const os = require('os');
 const execSync = require('child_process').execSync;
 
+let timeOut = 1000;
+let historyCount = 60;
+
 const gaugeOptions = {
   width: 75,
   height: 75,
@@ -331,6 +334,8 @@ function _parseNmCli(output) {
 }
 
 module.exports = {
+  timeOut: timeOut,
+  historyCount: historyCount,
   processStorage: processStorage,
   graphStorage: graphStorage,
   gaugeOptions: gaugeOptions,

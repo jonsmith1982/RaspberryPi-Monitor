@@ -13,14 +13,11 @@ const progress = function(s, n, l, c, u, a, t, p) {
   return('<div id="' + s + '_' + n + '">' + code + '<label id="' + n + '_label" class="tiny"><strong>Used:</strong> ' + u + 'GiB <strong>Available:</strong> ' + a + 'GiB of ' + t + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + n + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + p + '%;" aria-valuenow="' + p + '" aria-valuemin="0" aria-valuemax="100">' + p + '%</div></div></div>');
 };
 
-let timeOut = 1000;
-let historyCount = 60;
-
 function cpuUsage(percent, seconds, coreIndex) {
   let cpuPercent = Math.ceil(percent);
   piMonitor.processStorage('cpu_stats_' + coreIndex, cpuPercent);
   document.gauges[coreIndex].value = percent;
-  piMonitor.corePercent(coreIndex, timeOut, cpuUsage);
+  piMonitor.corePercent(coreIndex, piMonitor.timeOut, cpuUsage);
 }
 
 function memoryStatistics() {
@@ -33,14 +30,14 @@ function memoryStatistics() {
     piMonitor.processStorage(t + '_stats', percent);
     $("#" + t + "_graphs").html(progress(t, t, null, null, used, free, total, percent));
   });
-  setTimeout(memoryStatistics, timeOut);
+  setTimeout(memoryStatistics, piMonitor.timeOut);
 }
 
 function cpuTemperature() {
   let temperature = piMonitor.cpuTemp();
   piMonitor.processStorage('cpu_temp', temperature);
   document.gauges[cpuCores].value = temperature;
-  setTimeout(cpuTemperature, timeOut);
+  setTimeout(cpuTemperature, piMonitor.timeOut);
 }
 
 function versionInfo() {
@@ -58,8 +55,8 @@ function versionInfo() {
 
 function uptimeInfo() {
   let uptime = piMonitor.uptimeInfo();
-  $("#uptime").html(li(null, uptime));
-  setTimeout(uptimeInfo, timeOut);
+  $("#uptime-info").html(li(null, uptime));
+  setTimeout(uptimeInfo, piMonitor.timeOut);
 }
 
 function networkInfo() {
@@ -76,7 +73,7 @@ function networkInfo() {
       $("#network").append(iFace);
     }
   }
-  setTimeout(networkInfo, timeOut);
+  setTimeout(networkInfo, piMonitor.timeOut);
 }
 
 function diskInfo() {
@@ -99,7 +96,7 @@ function diskInfo() {
       }
     }
   }
-  setTimeout(diskInfo, timeOut);
+  setTimeout(diskInfo, piMonitor.timeOut);
 }
 
 function wifiInfo() {
@@ -110,7 +107,7 @@ function wifiInfo() {
   } else {
     $("#wifi_graphs").html('<ul class="list-group tiny">' + li(conn[ssid[0]].device, ssid[0], true) + '</ul>');
   }
-  setTimeout(wifiInfo, timeOut);
+  setTimeout(wifiInfo, piMonitor.timeOut);
 }
 
 $(document).ready(function() {
@@ -125,7 +122,7 @@ $(document).ready(function() {
     cpuGaugeOptions.renderTo = 'cpu_gauge_' + x;
     $('#cpu_graphs').append('<div class="col-3 col-md-6 col-lg-3 text-center"><canvas id="cpu_gauge_' + x + '" ></canvas></div>');
     new gauges.RadialGauge(cpuGaugeOptions).draw(); 
-    piMonitor.corePercent(x, timeOut, cpuUsage);
+    piMonitor.corePercent(x, piMonitor.timeOut, cpuUsage);
   }
   
   let tempGaugeOptions = piMonitor.gaugeOptions;
