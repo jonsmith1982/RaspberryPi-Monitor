@@ -70,7 +70,7 @@ function networkInfo() {
       $("#iface_" + x).html(iFace);
     } else {
       iFace = '<code>' + x + '</code><ul id="iface_' + x + '" class="list-group tiny mb-3">' + iFace + '</ul>';
-      $("#network-info").append(iFace);
+      $("#network_info").append(iFace);
     }
   }
   setTimeout(networkInfo, piMonitor.timeOut);
