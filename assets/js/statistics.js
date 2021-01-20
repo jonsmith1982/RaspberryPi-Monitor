@@ -105,4 +105,10 @@ $(document).ready(function() {
     setTimeout(memGraphUpdate, piMonitor.timeOut);
   }
   
+  $(window).resize(function() {
+    cpuGraph = $.plot("#cpu_usage_graph", cpuGraphData(), options);
+    tempGraph = $.plot("#cpu_temp_graph", tempGraphData(), options);
+    memGraph = $.plot("#mem_usage_graph", memGraphData(), options);
+  });
+  
 });
