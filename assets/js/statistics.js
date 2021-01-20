@@ -79,50 +79,29 @@ $(document).ready(function() {
   for (const x of Array(cpuCores).keys()) {
     piMonitor.corePercent(x, piMonitor.timeOut, cpuUsage);
   }
-  let cpuData = cpuGraphData();
-  let cpuGraph = $.plot("#cpu_usage_graph", cpuData, options);
+  let cpuGraph = $.plot("#cpu_usage_graph", cpuGraphData(), options);
   cpuGraphUpdate();
   function cpuGraphUpdate() {
-    if (cpuData.length < piMonitor.historyCount) {
-      cpuData = cpuGraphData();
-      cpuGraph = $.plot("#cpu_usage_graph", cpuData, options);
-    } else {
-      cpuData = cpuGraphData();
-      cpuGraph.setData(cpuData);
-      cpuGraph.draw();
-    }
+    cpuGraph.setData(cpuGraphData());
+    cpuGraph.draw();
     setTimeout(cpuGraphUpdate, piMonitor.timeOut);
   }
   
   cpuTemperature();
-  let tempData = tempGraphData();
-  let tempGraph = $.plot("#cpu_temp_graph", tempData, options);
+  let tempGraph = $.plot("#cpu_temp_graph", tempGraphData(), options);
   tempGraphUpdate();
   function tempGraphUpdate() {
-    if (tempData.length < piMonitor.historyCount) {
-      tempData = tempGraphData();
-      tempGraph = $.plot("#cpu_temp_graph", tempData, options);
-    } else {
-      tempData = memGraphData();
-      tempGraph.setData(tempData);
-      tempGraph.draw();
-    }
+    tempGraph.setData(tempGraphData());
+    tempGraph.draw();
     setTimeout(tempGraphUpdate, piMonitor.timeOut);
   }
   
   memoryStatistics();
-  let memData = memGraphData();
-  let memGraph = $.plot("#mem_usage_graph", memData, options);
+  let memGraph = $.plot("#mem_usage_graph", memGraphData(), options);
   memGraphUpdate();
   function memGraphUpdate() {
-    if (memData.length < piMonitor.historyCount) {
-      memData = memGraphData();
-      memGraph = $.plot("#mem_usage_graph", memData, options);
-    } else {
-      memData = memGraphData();
-      memGraph.setData(memData);
-      memGraph.draw();
-    }
+    memGraph.setData(memGraphData());
+    memGraph.draw();
     setTimeout(memGraphUpdate, piMonitor.timeOut);
   }
   
