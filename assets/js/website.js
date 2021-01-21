@@ -1,5 +1,7 @@
 const sections = {version: 'Version Information', cpu: 'CPU Gauges', harddisks: 'Hard Disk Details', uptime: 'Uptime Information', temperature: 'Temperature Gauge', memory: 'Memory Meter', swap: 'Swap Meter', wifi: 'Wifi Details', network: 'Network Interfaces', partitions: 'Partitions Information'};
 
+const settings = {overview: {version: {label: 'Version Information', title: 'Version', status: true}, cpu: {label: 'CPU Gauges', title: 'CPU', status: true}, harddisks: {label: 'Hard Disk Details', title: 'Hard Disks', status: true}, uptime: {label: 'Uptime Information', title: 'Uptime', status: true}, temperature: {label: 'Temperature Gauge', title: 'Temperature', status: true}, memory: {label: 'Memory Meter', title: 'Memory', status: true}, swap: {label: 'Swap Meter', title: 'Swap', status: true}, wifi: {label: 'Wifi Details', title: 'Wifi', status: true}, network: {label: 'Network Interfaces', title: 'Network', status: true}, partitions: {label: 'Partitions Information', title: 'Partitions', status: true}}, statistics: {cpu: {label: 'CPU Graph', title: 'CPU', status: true}, temperature: {label: 'Temperature Graph', title: 'Temperature', status: true}, memory: {label: 'Memory Graph', title: 'Memory', status: true}}};
+
 function navbar(page) {
   let ul = '';
   const pages = ['overview', 'statistics'];
