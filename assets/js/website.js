@@ -1,4 +1,25 @@
-const settings = {overview: {version: {label: 'Version Information', title: 'Version', status: true}, cpu: {label: 'CPU Gauges', title: 'CPU', status: true}, harddisks: {label: 'Hard Disk Details', title: 'Hard Disks', status: true}, uptime: {label: 'Uptime Information', title: 'Uptime', status: true}, temperature: {label: 'Temperature Gauge', title: 'Temperature', status: true}, memory: {label: 'Memory Meter', title: 'Memory', status: true}, swap: {label: 'Swap Meter', title: 'Swap', status: true}, wifi: {label: 'Wifi Details', title: 'Wifi', status: true}, network: {label: 'Network Interfaces', title: 'Network', status: true}, partitions: {label: 'Partitions Information', title: 'Partitions', status: true}}, statistics: {cpu: {label: 'CPU Graph', title: 'CPU', status: true}, temperature: {label: 'Temperature Graph', title: 'Temperature', status: true}, memory: {label: 'Memory Graph', title: 'Memory', status: true}}};
+const VERSION = 0.01;
+let settings = {overview: {version: {label: 'Version Information', title: 'Version', status: true}, cpu: {label: 'CPU Gauges', title: 'CPU', status: true}, harddisks: {label: 'Hard Disk Details', title: 'Hard Disks', status: true}, uptime: {label: 'Uptime Information', title: 'Uptime', status: true}, temperature: {label: 'Temperature Gauge', title: 'Temperature', status: true}, memory: {label: 'Memory Meter', title: 'Memory', status: true}, swap: {label: 'Swap Meter', title: 'Swap', status: true}, wifi: {label: 'Wifi Details', title: 'Wifi', status: true}, network: {label: 'Network Interfaces', title: 'Network', status: true}, partitions: {label: 'Partitions Information', title: 'Partitions', status: true}}, statistics: {cpu: {label: 'CPU Graph', title: 'CPU', status: true}, temperature: {label: 'Temperature Graph', title: 'Temperature', status: true}, memory: {label: 'Memory Graph', title: 'Memory', status: true}}};
+
+const localStorage = window.localStorage;
+
+function checkVersion() {
+  const version = localStorage.getItem('pi_version') ? localStorage.getItem('pi_version') : VERSION;
+  if (VERSION !== version) {
+    // perform version update ?
+    return(true);
+  }
+  return(false);
+}
+
+function updateSettings(newSettings = null) {
+  if (newSettings !== null) {
+    localStorage.setItem('pi_settings', JSON.stringify(newSettings));
+    return(newSettings);
+  }
+  const piSettings = localStorage.getItem('pi_settings') ? JSON.parse(localStorage.getItem('pi_settings')) : settings;
+  return(piSettings);
+}
 
 function navbar(page) {
   let ul = '';
@@ -22,11 +43,20 @@ function settingsModal(page) {
     const checked = settings[page][x].status ? ' checked="checked"' : '';
     li.push('<li class="list-group-item"><div class="custom-control custom-switch"><input type="checkbox" class="custom-control-input" id="settings_' + x + '"' + checked + '><label class="custom-control-label" for="settings_' + x + '">' + settings[page][x].label + '</label></div></li>');
   }
-  const modal = '<div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-modal-label" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="settings-modal-label">Settings</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><ul class="list-group">' + li.join('') + '</ul></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary">Save changes</button></div></div></div></div>';
+  const modal = '<div class="modal fade" id="settings-modal" tabindex="-1" aria-labelledby="settings-modal-label" aria-hidden="true"><div class="modal-dialog"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="settings-modal-label">Settings</h5><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button></div><div class="modal-body"><ul class="list-group">' + li.join('') + '</ul></div><div class="modal-footer"><button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button><button type="button" class="btn btn-primary" id="save-settings">Save changes</button></div></div></div></div>';
   return(modal);
 }
 
 $(document).ready(function() {
+  const upgrade = checkVersion();
+  settings = updateSettings();
   $("#content").prepend(navigation(page));
   $('body').append(settingsModal(page));
+  $("#save-settings").on('click', function(e) {
+    for (const x of Object.keys(settings[page])) {
+      settings[page][x].status = $("#settings_" + x + ":checked").length ? true : false;
+    }
+    settings = updateSettings(settings);
+    $("#settings-modal").modal('hide');
+  });
 });
