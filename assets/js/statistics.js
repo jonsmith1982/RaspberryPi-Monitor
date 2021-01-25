@@ -82,46 +82,43 @@ function cpuTemperature() {
 
 $(document).ready(function() {
   
+  let cpuGraph;
   if (settings.statistics.cpu.status) {
     $("section#cpu").removeClass('d-none');
-  }
-  for (const x of Array(cpuCores).keys()) {
-    piMonitor.corePercent(x, piMonitor.timeOut, cpuUsage);
-  }
-  let cpuGraph = $.plot("#cpu_usage_graph", cpuGraphData(), options);
-  cpuGraphUpdate();
-  function cpuGraphUpdate() {
-    cpuGraph.setData(cpuGraphData());
-    cpuGraph.draw();
-    if (settings.statistics.cpu.status) {
+    for (const x of Array(cpuCores).keys()) {
+      piMonitor.corePercent(x, piMonitor.timeOut, cpuUsage);
+    }
+    cpuGraph = $.plot("#cpu_usage_graph", cpuGraphData(), options);
+    cpuGraphUpdate();
+    function cpuGraphUpdate() {
+      cpuGraph.setData(cpuGraphData());
+      cpuGraph.draw();
       setTimeout(cpuGraphUpdate, piMonitor.timeOut);
     }
   }
   
+  let tempGraph;
   if (settings.statistics.temperature.status) {
     $("section#temperature").removeClass('d-none');
-  }
-  cpuTemperature();
-  let tempGraph = $.plot("#cpu_temp_graph", tempGraphData(), options);
-  tempGraphUpdate();
-  function tempGraphUpdate() {
-    tempGraph.setData(tempGraphData());
-    tempGraph.draw();
-    if (settings.statistics.temperature.status) {
+    cpuTemperature();
+    tempGraph = $.plot("#cpu_temp_graph", tempGraphData(), options);
+    tempGraphUpdate();
+    function tempGraphUpdate() {
+      tempGraph.setData(tempGraphData());
+      tempGraph.draw();
       setTimeout(tempGraphUpdate, piMonitor.timeOut);
     }
   }
   
+  let memGraph;
   if (settings.statistics.memory.status) {
     $("section#memory").removeClass('d-none');
-  }
-  memoryStatistics();
-  let memGraph = $.plot("#mem_usage_graph", memGraphData(), options);
-  memGraphUpdate();
-  function memGraphUpdate() {
-    memGraph.setData(memGraphData());
-    memGraph.draw();
-    if (settings.statistics.memory.status) {
+    memoryStatistics();
+    memGraph = $.plot("#mem_usage_graph", memGraphData(), options);
+    memGraphUpdate();
+    function memGraphUpdate() {
+      memGraph.setData(memGraphData());
+      memGraph.draw();
       setTimeout(memGraphUpdate, piMonitor.timeOut);
     }
   }
