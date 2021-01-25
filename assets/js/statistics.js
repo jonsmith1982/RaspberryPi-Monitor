@@ -93,7 +93,9 @@ $(document).ready(function() {
   function cpuGraphUpdate() {
     cpuGraph.setData(cpuGraphData());
     cpuGraph.draw();
-    setTimeout(cpuGraphUpdate, piMonitor.timeOut);
+    if (settings.statistics.cpu.status) {
+      setTimeout(cpuGraphUpdate, piMonitor.timeOut);
+    }
   }
   
   if (settings.statistics.temperature.status) {
@@ -105,7 +107,9 @@ $(document).ready(function() {
   function tempGraphUpdate() {
     tempGraph.setData(tempGraphData());
     tempGraph.draw();
-    setTimeout(tempGraphUpdate, piMonitor.timeOut);
+    if (settings.statistics.temperature.status) {
+      setTimeout(tempGraphUpdate, piMonitor.timeOut);
+    }
   }
   
   if (settings.statistics.memory.status) {
@@ -117,7 +121,9 @@ $(document).ready(function() {
   function memGraphUpdate() {
     memGraph.setData(memGraphData());
     memGraph.draw();
-    setTimeout(memGraphUpdate, piMonitor.timeOut);
+    if (settings.statistics.memory.status) {
+      setTimeout(memGraphUpdate, piMonitor.timeOut);
+    }
   }
   
   $(window).resize(function() {
