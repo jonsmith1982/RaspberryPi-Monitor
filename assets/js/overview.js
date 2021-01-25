@@ -17,7 +17,9 @@ function cpuUsage(percent, seconds, coreIndex) {
   let cpuPercent = Math.ceil(percent);
   piMonitor.processStorage('cpu_stats_' + coreIndex, cpuPercent);
   document.gauges[coreIndex].value = percent;
-  piMonitor.corePercent(coreIndex, piMonitor.timeOut, cpuUsage);
+  if (settings.overview.cpu.status) {
+    piMonitor.corePercent(coreIndex, piMonitor.timeOut, cpuUsage);
+  }
 }
 
 function memoryStatistics() {
@@ -30,14 +32,18 @@ function memoryStatistics() {
     piMonitor.processStorage(t + '_stats', percent);
     $("#" + t + "_graphs").html(progress(t, t, null, null, used, free, total, percent));
   });
-  setTimeout(memoryStatistics, piMonitor.timeOut);
+  if (settings.overview.memory.status || settings.overview.swap.status) {
+    setTimeout(memoryStatistics, piMonitor.timeOut);
+  }
 }
 
 function cpuTemperature() {
   let temperature = piMonitor.cpuTemp();
   piMonitor.processStorage('cpu_temp', temperature);
   document.gauges[cpuCores].value = temperature;
-  setTimeout(cpuTemperature, piMonitor.timeOut);
+  if (settings.overview.temperature.status) {
+    setTimeout(cpuTemperature, piMonitor.timeOut);
+  }
 }
 
 function versionInfo() {
@@ -56,7 +62,9 @@ function versionInfo() {
 function uptimeInfo() {
   let uptime = piMonitor.uptimeInfo();
   $("#uptime_info").html(li(null, uptime));
-  setTimeout(uptimeInfo, piMonitor.timeOut);
+  if (settings.overview.uptime.status) {
+    setTimeout(uptimeInfo, piMonitor.timeOut);
+  }
 }
 
 function networkInfo() {
@@ -73,7 +81,9 @@ function networkInfo() {
       $("#network_info").append(iFace);
     }
   }
-  setTimeout(networkInfo, piMonitor.timeOut);
+  if (settings.overview.network.status) {
+    setTimeout(networkInfo, piMonitor.timeOut);
+  }
 }
 
 function diskInfo() {
@@ -96,7 +106,9 @@ function diskInfo() {
       }
     }
   }
-  setTimeout(diskInfo, piMonitor.timeOut);
+  if (settings.overview.harddisks.status || settings.overview.partitions.status) {
+    setTimeout(diskInfo, piMonitor.timeOut);
+  }
 }
 
 function wifiInfo() {
@@ -107,15 +119,29 @@ function wifiInfo() {
   } else {
     $("#wifi_graphs").html('<ul class="list-group tiny">' + li(conn[ssid[0]].device, ssid[0], true) + '</ul>');
   }
-  setTimeout(wifiInfo, piMonitor.timeOut);
+  if (settings.overview.wifi.status) {
+    setTimeout(wifiInfo, piMonitor.timeOut);
+  }
 }
 
 $(document).ready(function() {
   
+  if (settings.overview.version.status) {
+    $("section#version").removeClass('d-none');
+  }
   versionInfo();
+  if (settings.overview.uptime.status) {
+    $("section#uptime").removeClass('d-none');
+  }
   uptimeInfo();
+  if (settings.overview.network.status) {
+    $("section#network").removeClass('d-none');
+  }
   networkInfo();
 
+  if (settings.overview.cpu.status) {
+    $("section#cpu").removeClass('d-none');
+  }
   for (const x of Array(cpuCores).keys()) {
     let cpuGaugeOptions = piMonitor.gaugeOptions;
     cpuGaugeOptions.title = 'CPU' + x;
@@ -125,6 +151,9 @@ $(document).ready(function() {
     piMonitor.corePercent(x, piMonitor.timeOut, cpuUsage);
   }
   
+  if (settings.overview.temperature.status) {
+    $("section#temperature").removeClass('d-none');
+  }
   let tempGaugeOptions = piMonitor.gaugeOptions;
   tempGaugeOptions.width = 120;
   tempGaugeOptions.height = 120;
@@ -135,10 +164,23 @@ $(document).ready(function() {
   new gauges.RadialGauge(tempGaugeOptions).draw(); 
   cpuTemperature();
   
+  if (settings.overview.memory.status) {
+    $("section#memory").removeClass('d-none');
+  }
+  if (settings.overview.swap.status) {
+    $("section#swap").removeClass('d-none');
+  }
   memoryStatistics();
+  if (settings.overview.harddisks.status) {
+    $("section#harddisks").removeClass('d-none');
+  }
+  if (settings.overview.partitions.status) {
+    $("section#partitions").removeClass('d-none');
+  }
   diskInfo();
+  if (settings.overview.wifi.status) {
+    $("section#wifi").removeClass('d-none');
+  }
   wifiInfo();
-  
-  $("section").removeClass('d-none');
-  
+    
 });

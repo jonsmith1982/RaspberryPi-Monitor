@@ -56,7 +56,9 @@ let options = {
 function cpuUsage(percent, seconds, coreIndex) {
   let cpuPercent = Math.ceil(percent);
   piMonitor.processStorage('cpu_stats_' + coreIndex, cpuPercent);
-  piMonitor.corePercent(coreIndex, piMonitor.timeOut, cpuUsage);
+  if (settings.statistics.cpu.status) {
+    piMonitor.corePercent(coreIndex, piMonitor.timeOut, cpuUsage);
+  }
 }
 
 function memoryStatistics() {
@@ -65,17 +67,24 @@ function memoryStatistics() {
     let percent = Math.ceil(statistics[`${t}UsedPercent`]);
     piMonitor.processStorage(t + '_stats', percent);
   });
-  setTimeout(memoryStatistics, piMonitor.timeOut);
+  if (settings.statistics.memory.status) {
+    setTimeout(memoryStatistics, piMonitor.timeOut);
+  }
 }
 
 function cpuTemperature() {
   let temperature = piMonitor.cpuTemp();
   piMonitor.processStorage('cpu_temp', temperature);
-  setTimeout(cpuTemperature, piMonitor.timeOut);
+  if (settings.statistics.temperature.status) {
+    setTimeout(cpuTemperature, piMonitor.timeOut);
+  }
 }
 
 $(document).ready(function() {
   
+  if (settings.statistics.cpu.status) {
+    $("section#cpu").removeClass('d-none');
+  }
   for (const x of Array(cpuCores).keys()) {
     piMonitor.corePercent(x, piMonitor.timeOut, cpuUsage);
   }
@@ -87,6 +96,9 @@ $(document).ready(function() {
     setTimeout(cpuGraphUpdate, piMonitor.timeOut);
   }
   
+  if (settings.statistics.temperature.status) {
+    $("section#temperature").removeClass('d-none');
+  }
   cpuTemperature();
   let tempGraph = $.plot("#cpu_temp_graph", tempGraphData(), options);
   tempGraphUpdate();
@@ -96,6 +108,9 @@ $(document).ready(function() {
     setTimeout(tempGraphUpdate, piMonitor.timeOut);
   }
   
+  if (settings.statistics.memory.status) {
+    $("section#memory").removeClass('d-none');
+  }
   memoryStatistics();
   let memGraph = $.plot("#mem_usage_graph", memGraphData(), options);
   memGraphUpdate();
@@ -106,9 +121,15 @@ $(document).ready(function() {
   }
   
   $(window).resize(function() {
-    cpuGraph = $.plot("#cpu_usage_graph", cpuGraphData(), options);
-    tempGraph = $.plot("#cpu_temp_graph", tempGraphData(), options);
-    memGraph = $.plot("#mem_usage_graph", memGraphData(), options);
+    if (settings.statistics.cpu.status) {
+      cpuGraph = $.plot("#cpu_usage_graph", cpuGraphData(), options);
+    }
+    if (settings.statistics.temperature.status) {
+      tempGraph = $.plot("#cpu_temp_graph", tempGraphData(), options);
+    }
+    if (settings.statistics.memory.status) {
+      memGraph = $.plot("#mem_usage_graph", memGraphData(), options);
+    }
   });
   
 });

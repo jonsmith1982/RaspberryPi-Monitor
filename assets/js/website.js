@@ -57,6 +57,7 @@ $(document).ready(function() {
       settings[page][x].status = $("#settings_" + x + ":checked").length ? true : false;
     }
     settings = updateSettings(settings);
-    $("#settings-modal").modal('hide');
+    //$("#settings-modal").modal('hide');
+    location.reload();
   });
 });
