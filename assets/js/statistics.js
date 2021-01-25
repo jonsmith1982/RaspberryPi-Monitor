@@ -56,9 +56,7 @@ let options = {
 function cpuUsage(percent, seconds, coreIndex) {
   let cpuPercent = Math.ceil(percent);
   piMonitor.processStorage('cpu_stats_' + coreIndex, cpuPercent);
-  if (settings.statistics.cpu.status) {
-    piMonitor.corePercent(coreIndex, piMonitor.timeOut, cpuUsage);
-  }
+  piMonitor.corePercent(coreIndex, piMonitor.timeOut, cpuUsage);
 }
 
 function memoryStatistics() {
@@ -67,17 +65,13 @@ function memoryStatistics() {
     let percent = Math.ceil(statistics[`${t}UsedPercent`]);
     piMonitor.processStorage(t + '_stats', percent);
   });
-  if (settings.statistics.memory.status) {
-    setTimeout(memoryStatistics, piMonitor.timeOut);
-  }
+  setTimeout(memoryStatistics, piMonitor.timeOut);
 }
 
 function cpuTemperature() {
   let temperature = piMonitor.cpuTemp();
   piMonitor.processStorage('cpu_temp', temperature);
-  if (settings.statistics.temperature.status) {
-    setTimeout(cpuTemperature, piMonitor.timeOut);
-  }
+  setTimeout(cpuTemperature, piMonitor.timeOut);
 }
 
 $(document).ready(function() {
