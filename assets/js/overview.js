@@ -36,7 +36,8 @@ function memoryStatistics() {
 function cpuTemperature() {
   let temperature = piMonitor.cpuTemp();
   piMonitor.processStorage('cpu_temp', temperature);
-  document.gauges[cpuCores].value = temperature;
+  let gaugeIndex = settings.overview.cpu.status ? cpuCores : 0;
+  document.gauges[gaugeIndex].value = temperature;
   setTimeout(cpuTemperature, piMonitor.timeOut);
 }
 
