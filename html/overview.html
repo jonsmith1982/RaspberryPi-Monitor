@@ -15,7 +15,7 @@
   
     <div class="row mb-3">
       
-      <div class="col-sm-12 col-md-4 border border-top-0 border-bottom-0">
+      <div class="sortable-column col-sm-12 col-md-4 border border-top-0 border-bottom-0">
         <section id="version" class="d-none">
           <h2><img src="../assets/images/version.png" alt="" /> Version</h2>
           <ul id="version_info" class="list-group tiny"></ul>
@@ -32,7 +32,7 @@
         </section>
       </div>
       
-      <div class="col-sm-6 col-md-4">
+      <div class="sortable-column col-sm-6 col-md-4">
         <section id="uptime" class="d-none">
           <h2><img src="../assets/images/uptime.png" alt="" /> Uptime</h2>
           <ul id="uptime_info" class="list-group tiny"></ul>
@@ -59,7 +59,7 @@
         </section>
       </div>
       
-      <div class="col-sm-6 col-md-4 border border-top-0 border-bottom-0">
+      <div class="sortable-column col-sm-6 col-md-4 border border-top-0 border-bottom-0">
         <section id="network" class="d-none">
           <h2><img src="../assets/images/network.png" alt="" /> Network</h2>
           <div id="network_info"></div>
@@ -76,7 +76,8 @@
   </div>
   
   <script>const page = 'overview'</script>
-  <script>window.$ = window.jQuery = require('../assets/js/jquery-3.5.1.slim.min.js');</script>
+  <script>window.$ = window.jQuery = require('../assets/js/jquery-3.5.1.min.js');</script>
+  <script src="../assets/js/jquery-ui.min.js"></script>
   <script src="../assets/js/bootstrap.bundle.min.js"></script>
   <script src="../assets/js/website.js"></script>
   <script src="../assets/js/overview.js"></script>

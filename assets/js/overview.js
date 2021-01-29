@@ -178,5 +178,13 @@ $(document).ready(function() {
     $("section#wifi").removeClass('d-none');
     wifiInfo();
   }
-    
+  
+  $(".sortable-column").sortable({
+    connectWith:['.sortable-column'],
+    tolerance: 'pointer',
+    revert: 'invalid',
+    placeholder: 'place',
+    item: 'section',
+    forceHelperSize: true
+  });
 });
