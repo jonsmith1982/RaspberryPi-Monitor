@@ -180,11 +180,11 @@ $(document).ready(function() {
   }
   
   $(".sortable-column").sortable({
-    connectWith:['.sortable-column'],
-    tolerance: 'pointer',
-    revert: 'invalid',
-    placeholder: 'place',
+    connectWith: ['.sortable-column'],
+    tolerance: 'intersect',
+    revert: true,
     item: 'section',
+    cursor: 'move',
     forceHelperSize: true
   });
 });
