@@ -127,7 +127,6 @@ $(document).ready(function() {
     $("section#network").removeClass('d-none');
     networkInfo();
   }
-  
 
   if (settings.overview.cpu.status) {
     $("section#cpu").removeClass('d-none');
