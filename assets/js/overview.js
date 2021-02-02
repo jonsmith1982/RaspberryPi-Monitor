@@ -189,9 +189,7 @@ $(document).ready(function() {
       let sectionsOrder = [];
       $(".sortable-column").each(function(i) {
         let columnSections = [];
-        $(this).children('section').each(function(a) {
-          columnSections.push($(this).attr('id'));
-        });
+        $(this).children('section').map(function() {columnSections.push(this.id)});
         sectionsOrder.push(columnSections);
       });
       localStorage.setItem('pi_overview_sortable', JSON.stringify(sectionsOrder));
