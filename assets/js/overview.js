@@ -184,18 +184,18 @@ $(document).ready(function() {
     revert: true,
     item: 'section',
     cursor: 'move',
-    forceHelperSize: true
+    forceHelperSize: true,
+    stop: function(event, ui) {
+      let sectionsOrder = [];
+      $(".sortable-column").each(function(i) {
+        let columnSections = [];
+        $(this).children('section').each(function(a) {
+          columnSections.push($(this).attr('id'));
+        });
+        sectionsOrder.push(columnSections);
+      });
+      localStorage.setItem('pi_overview_sortable', JSON.stringify(sectionsOrder));
+    }
   });
   
-  $(".sortable-column").sortable({stop: function(event, ui) {
-    let sectionsOrder = [];
-    $(".sortable-column").each(function(i) {
-      let columnSections = [];
-      $(this).children('section').each(function(a) {
-        columnSections.push($(this).attr('id'));
-      });
-      sectionsOrder.push(columnSections);
-    });
-    localStorage.setItem('pi_overview_sortable', JSON.stringify(sectionsOrder));
-  }});
 });
