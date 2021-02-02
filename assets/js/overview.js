@@ -186,4 +186,16 @@ $(document).ready(function() {
     cursor: 'move',
     forceHelperSize: true
   });
+  
+  $(".sortable-column").sortable({stop: function(event, ui) {
+    let sectionsOrder = [];
+    $(".sortable-column").each(function(i) {
+      let columnSections = [];
+      $(this).children('section').each(function(a) {
+        columnSections.push($(this).attr('id'));
+      });
+      sectionsOrder.push(columnSections);
+    });
+    localStorage.setItem('pi_overview_sortable', JSON.stringify(sectionsOrder));
+  }});
 });
