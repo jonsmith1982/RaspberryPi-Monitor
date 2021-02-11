@@ -178,6 +178,10 @@ $(document).ready(function() {
     wifiInfo();
   }
   
+  //const test = new Test();
+  //$(".sortable-column:nth-child(3)").append(test.placeholder());
+  //test.initialise();
+  
   $(".sortable-column").sortable({
     connectWith: ['.sortable-column'],
     tolerance: 'intersect',
