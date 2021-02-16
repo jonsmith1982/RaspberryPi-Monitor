@@ -1,14 +1,15 @@
 // processors.js
 
-const os = require('os');
-
 class Processors {
   
   name = 'processors';
   settings = {
     status: true,
     label: 'Processors Information',
-    title: 'Processors'
+    title: 'Processors',
+    deps: 'gauges',
+    column: 1,
+    row: 2
   };
   gaugeOptions = {
     width: 75,
@@ -55,7 +56,7 @@ class Processors {
       cpuGaugeOptions.renderTo = 'cpu_gauge_' + x;
       $('#processors_graphs').append('<div class="col-3 col-md-6 col-lg-3 text-center"><canvas id="cpu_gauge_' + x + '" ></canvas></div>');
       new gauges.RadialGauge(cpuGaugeOptions).draw(); 
-      this.#corePercent(x, this.settings.timeout, this.reinitialise);
+      this.#corePercent(x, this.settings.timeout, this.reinitialise.bind(this));
     }
   }
   

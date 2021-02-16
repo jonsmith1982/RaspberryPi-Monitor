@@ -1,14 +1,14 @@
 // version.js
 
-const fs = require('fs');
-
 class Version {
   
   name = 'version';
   settings = {
     status: true,
     label: 'Version Information',
-    title: 'Version'
+    title: 'Version',
+    column: 1,
+    row: 1
   };
   revisions = {
     '0002': ['Model B revision 1.0 256MB, Egoman', 'B', '1.0', '256MB', 'Egoman'],

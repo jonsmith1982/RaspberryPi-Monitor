@@ -1,14 +1,14 @@
 // partitions.js
 
-const execSync = require('child_process').execSync;
-
 class Partitions {
   
   name = 'partitions';
   settings = {
     status: true,
     label: 'Partitions Information',
-    title: 'Partitions'
+    title: 'Partitions',
+    column: 3,
+    row: 2
   };
   progress = function(s, n, l, c, u, a, t, p) {
     const code = c !== null ? '<strong class="tiny">' + l + ':</strong> <code>' + c + '</code>' : '';
@@ -37,7 +37,7 @@ class Partitions {
           const available = Math.round(this.#bytesTo(disks[x].size - disks[x].fsused) * 100) / 100;
           const used = Math.round(this.#bytesTo(disks[x].fsused) * 100) / 100;
           const percent = Math.ceil(((disks[x].size - disks[x].fsused) / disks[x].size) * 100);
-          const part = progress('partitions', x, 'Mount Point', disks[x].mountpoint, used, available, total, percent);
+          const part = this.progress('partitions', x, 'Mount Point', disks[x].mountpoint, used, available, total, percent);
           $("#partitions_graphs").append(part);
         }
       }

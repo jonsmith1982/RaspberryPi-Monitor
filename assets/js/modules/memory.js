@@ -1,14 +1,14 @@
 // memory.js
 
-const fs = require('fs');
-
 class Memory {
   
   name = 'memory';
   settings = {
     status: true,
     label: 'Memory Information',
-    title: 'Memory'
+    title: 'Memory',
+    column: 2,
+    row: 3
   };
   progress = function(s, n, l, c, u, a, t, p) {
     const code = c !== null ? '<strong class="tiny">' + l + ':</strong> <code>' + c + '</code>' : '';
@@ -35,7 +35,7 @@ class Memory {
     const free = Math.round(statistics.memFree * 100) / 100;
     const total = Math.round(statistics.memTotal * 100) / 100;
     //piMonitor.processStorage('mem_stats', percent);
-    $("#memory_graphs").html(progress('mem', 'mem', null, null, used, free, total, percent));
+    $("#memory_graphs").html(this.progress('mem', 'mem', null, null, used, free, total, percent));
     setTimeout(this.reinitialise.bind(this), this.settings.timeout);
   }
   

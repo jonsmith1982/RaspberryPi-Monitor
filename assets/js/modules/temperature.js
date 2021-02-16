@@ -1,14 +1,15 @@
 // temperature.js
 
-const fs = require('fs');
-
 class Temperature {
   
   name = 'temperature';
   settings = {
     status: true,
     label: 'Temperature Information',
-    title: 'Temperature'
+    title: 'Temperature',
+    deps: 'gauges',
+    column: 2,
+    row: 2
   };
   gaugeOptions = {
     width: 120,

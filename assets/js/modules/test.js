@@ -6,7 +6,9 @@ class Test {
   settings = {
     status: true,
     label: 'Test Details',
-    title: 'Test'
+    title: 'Test',
+    column: 2,
+    row: 6
   };
   
   constructor(timeout = 2000) {

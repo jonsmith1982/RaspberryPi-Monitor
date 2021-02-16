@@ -1,14 +1,14 @@
 // swap.js
 
-const fs = require('fs');
-
 class Swap {
   
   name = 'swap';
   settings = {
     status: true,
     label: 'Swap Information',
-    title: 'Swap'
+    title: 'Swap',
+    column: 2,
+    row: 4
   };
   progress = function(s, n, l, c, u, a, t, p) {
     const code = c !== null ? '<strong class="tiny">' + l + ':</strong> <code>' + c + '</code>' : '';
@@ -35,7 +35,7 @@ class Swap {
     const free = Math.round(statistics.swapFree * 100) / 100;
     const total = Math.round(statistics.swapTotal * 100) / 100;
     //piMonitor.processStorage('mem_stats', percent);
-    $("#swap_graphs").html(progress('swap', 'swap', null, null, used, free, total, percent));
+    $("#swap_graphs").html(this.progress('swap', 'swap', null, null, used, free, total, percent));
     setTimeout(this.reinitialise.bind(this), this.settings.timeout);
   }
   

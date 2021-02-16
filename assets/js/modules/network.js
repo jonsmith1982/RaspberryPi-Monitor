@@ -1,14 +1,14 @@
 // network.js
 
-const fs = require('fs');
-
 class Network {
   
   name = 'network';
   settings = {
     status: true,
     label: 'Network Information',
-    title: 'Network'
+    title: 'Network',
+    column: 3,
+    row: 1
   };
   li = function(l, v, c = false) {
     const label = l !== null ? '<strong>' + l + ':</strong> ' : ''
@@ -34,7 +34,7 @@ class Network {
     for (const x of iFaces) {
       const sent = Math.round(this.#bytesTo(netInfo[x].bytes.transmit) * 100) / 100;
       const received = Math.round(this.#bytesTo(netInfo[x].bytes.transmit) * 100) / 100;
-      let iFace = li('Sent', sent + 'GiB') + li('Received', received + 'GiB');
+      let iFace = this.li('Sent', sent + 'GiB') + this.li('Received', received + 'GiB');
       if ($("#iface_" + x).length) {
         $("#iface_" + x).html(iFace);
       } else {

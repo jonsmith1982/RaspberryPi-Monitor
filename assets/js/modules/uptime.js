@@ -1,14 +1,14 @@
 // uptime.js
 
-const os = require('os');
-
 class Uptime {
   
   name = 'uptime';
   settings = {
     status: true,
     label: 'Uptime Information',
-    title: 'Uptime'
+    title: 'Uptime',
+    column: 2,
+    row: 1
   };
   
   constructor(timeout = 2000) {

@@ -1,14 +1,14 @@
 // wifi.js
 
-const execSync = require('child_process').execSync;
-
 class Wifi {
   
   name = 'wifi';
   settings = {
     status: true,
     label: 'Wifi Information',
-    title: 'Wifi'
+    title: 'Wifi',
+    column: 2,
+    row: 5
   };
   
   constructor(timeout = 2000) {
