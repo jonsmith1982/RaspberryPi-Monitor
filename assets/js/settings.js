@@ -1,10 +1,9 @@
-function updateSettings(newSettings = null) {
-  if (newSettings !== null) {
-    localStorage.setItem('pi_settings', JSON.stringify(newSettings));
-    return(newSettings);
+function updateSettings(piSettings = null) {
+  if (piSettings !== null) {
+    ls.setItem('pi_settings', JSON.stringify(piSettings));
+    return(piSettings);
   }
-  const piSettings = localStorage.getItem('pi_settings') ?
-    JSON.parse(localStorage.getItem('pi_settings')) : settings;
+  piSettings = ls.getItem('pi_settings') ? JSON.parse(ls.getItem('pi_settings')) : settings;
   return(piSettings);
 }
 
@@ -16,7 +15,7 @@ if (page === 'overview') {
     const moduleName = jsModule.name.toLowerCase();
     if (moduleName in settings.overview) {
       if (settings.overview[moduleName].status) {
-        jsClasses[moduleName] = new jsModule();
+        jsClasses[moduleName] = new jsModule(overview[moduleName].timeout);
       }
     } else {
       jsClasses[moduleName] = new jsModule();

@@ -40,6 +40,7 @@ class Processors {
     animationRule: 'quad',
     animationDuration: 500
   };
+  deps = {};
     
   constructor(timeout = 2000) {
     this.settings.timeout = timeout;
@@ -49,13 +50,17 @@ class Processors {
     return('<section id="' + this.name + '"><h2><img src="../assets/images/cpu.png" alt="" /> ' + this.settings.title + '</h2><div id="processors_graphs" class="row"></div><hr /></section>');
   }
   
+  dependencies(key, value) {
+    this.deps[key] = value;
+  }
+  
   initialise(gauges) {
     for (const x of Array(os.cpus().length).keys()) {
       let cpuGaugeOptions = this.gaugeOptions;
       cpuGaugeOptions.title = 'CPU' + x;
       cpuGaugeOptions.renderTo = 'cpu_gauge_' + x;
       $('#processors_graphs').append('<div class="col-3 col-md-6 col-lg-3 text-center"><canvas id="cpu_gauge_' + x + '" ></canvas></div>');
-      new gauges.RadialGauge(cpuGaugeOptions).draw(); 
+      new this.deps.gauges.RadialGauge(cpuGaugeOptions).draw(); 
       this.#corePercent(x, this.settings.timeout, this.reinitialise.bind(this));
     }
   }

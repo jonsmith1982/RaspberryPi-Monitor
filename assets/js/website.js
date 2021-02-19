@@ -20,13 +20,13 @@ for(const jsFile of ['settings', page]) {
   document.body.appendChild(jsScript);
 }
 
-const localStorage = window.localStorage;
+const ls = window.localStorage;
 const sessionStorage = window.sessionStorage;
 
 let settings = {overview: {}, statistics: {cpu: {label: 'CPU Graph', title: 'CPU', status: true}, temperature: {label: 'Temperature Graph', title: 'Temperature', status: true}, memory: {label: 'Memory Graph', title: 'Memory', status: true}}};
 
 function checkVersion() {
-  const version = localStorage.getItem('pi_version') ? localStorage.getItem('pi_version') : VERSION;
+  const version = ls.getItem('pi_version') ? ls.getItem('pi_version') : VERSION;
   if (VERSION !== version) {
     // perform version update ?
     return(true);

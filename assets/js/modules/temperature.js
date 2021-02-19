@@ -42,6 +42,7 @@ class Temperature {
     animationRule: 'quad',
     animationDuration: 500
   };
+  deps = {};
   
   constructor(timeout = 2000) {
     this.settings.timeout = timeout;
@@ -51,8 +52,12 @@ class Temperature {
     return('<section id="' + this.name + '"><h2><img src="../assets/images/cpu_temp.png" alt="" /> ' + this.settings.title + '</h2><div class="text-center"><canvas id="temperature_gauge"></canvas></div><hr /></section>');
   }
   
+  dependencies(key, value) {
+    this.deps[key] = value;
+  }
+  
   initialise(gauges) {
-    new gauges.RadialGauge(this.gaugeOptions).draw(); 
+    new this.deps.gauges.RadialGauge(this.gaugeOptions).draw(); 
     this.reinitialise();
   }
   
