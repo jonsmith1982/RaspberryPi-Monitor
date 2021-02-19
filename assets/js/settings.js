@@ -15,7 +15,7 @@ if (page === 'overview') {
     const moduleName = jsModule.name.toLowerCase();
     if (moduleName in settings.overview) {
       if (settings.overview[moduleName].status) {
-        jsClasses[moduleName] = new jsModule(overview[moduleName].timeout);
+        jsClasses[moduleName] = new jsModule(settings.overview[moduleName].timeout);
       }
     } else {
       jsClasses[moduleName] = new jsModule();
