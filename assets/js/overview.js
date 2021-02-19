@@ -1,20 +1,20 @@
-const gauges = require('../assets/js/gauge.min.js');
+let dependencies = {};
+dependencies['gauges'] = require('../assets/js/gauge.min.js');
 
 $(document).ready(function() {
   
   for(const moduleName of Object.keys(jsClasses)) {
     const column = settings.overview[moduleName].column;
     const row = settings.overview[moduleName].row;
-    if (row === 1) {
+    if (row <= 1)
       $(".sortable-column:nth-child(" + column + ")").prepend(jsClasses[moduleName].placeholder());
-    } else if (row > 1 && row <= $(".sortable-column:nth-child(" + column + ") section").length) {
+    else if (row <= $(".sortable-column:nth-child(" + column + ") section").length)
       $(".sortable-column:nth-child(" + column + ") section:nth-child(" + row + ")").before(jsClasses[moduleName].placeholder());
-    } else {
+    else
       $(".sortable-column:nth-child(" + column + ")").append(jsClasses[moduleName].placeholder());
-    }
     if ('deps' in jsClasses[moduleName].settings) {
-      if (jsClasses[moduleName].settings.deps === 'gauges')
-        jsClasses[moduleName].dependencies('gauges', gauges);
+      const dep =jsClasses[moduleName].settings.deps;
+      jsClasses[moduleName].dependencies(dep, dependencies[dep]);
     }
     jsClasses[moduleName].initialise();
   }
