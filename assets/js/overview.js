@@ -3,15 +3,11 @@ dependencies['gauges'] = require('../assets/js/gauge.min.js');
 
 $(document).ready(function() {
   
-  for(const moduleName of Object.keys(jsClasses)) {
+  for(const moduleSorted of modulesSort) {
+    const moduleName = moduleSorted[0];
     const column = settings.overview[moduleName].column;
-    const row = settings.overview[moduleName].row;
-    if (row <= 1)
-      $(".sortable-column:nth-child(" + column + ")").prepend(jsClasses[moduleName].placeholder());
-    else if (row <= $(".sortable-column:nth-child(" + column + ") section").length)
-      $(".sortable-column:nth-child(" + column + ") section:nth-child(" + row + ")").before(jsClasses[moduleName].placeholder());
-    else
-      $(".sortable-column:nth-child(" + column + ")").append(jsClasses[moduleName].placeholder());
+    const row = moduleSorted[1];
+    $(".sortable-column:nth-child(" + column + ")").append(jsClasses[moduleName].placeholder());
     if ('deps' in jsClasses[moduleName].settings) {
       const dep =jsClasses[moduleName].settings.deps;
       jsClasses[moduleName].dependencies(dep, dependencies[dep]);

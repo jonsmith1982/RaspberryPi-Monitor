@@ -10,6 +10,7 @@ function updateSettings(piSettings = null) {
 settings = updateSettings();
 
 let jsClasses = {};
+let modulesSort = [];
 if (page === 'overview') {
   module.exports.piModules.forEach(jsModule => {
     const moduleName = jsModule.name.toLowerCase();
@@ -21,7 +22,9 @@ if (page === 'overview') {
       jsClasses[moduleName] = new jsModule();
       settings.overview[moduleName] = jsClasses[moduleName].settings;
     }
+    modulesSort.push([moduleName, jsClasses[moduleName].settings.row]);
   });
+  modulesSort.sort((a, b) => a[1] - b[1]);
 }
 
 function settingsModal(page) {
