@@ -16,7 +16,7 @@ class Fortune {
   }
   
   placeholder() {
-    return('<section id="' + this.name + '"><h2><img src="../assets/images/wifi.png" alt="" /> ' + this.settings.title + '</h2><div id="fortune_cookie"></div><hr /></section>');
+    return('<section id="' + this.name + '"><h2><img src="../assets/images/user.png" alt="" /> ' + this.settings.title + '</h2><div id="fortune_cookie"></div><hr /></section>');
   }
   
   initialise() {
