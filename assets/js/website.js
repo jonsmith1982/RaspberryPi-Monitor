@@ -19,9 +19,30 @@ for(const jsFile of ['settings', page]) {
 }
 
 const ls = window.localStorage;
-const sessionStorage = window.sessionStorage;
+const ss = window.sessionStorage;
+const historyCount = 60;
 
-let settings = {overview: {}, statistics: {cpu: {label: 'CPU Graph', title: 'CPU', status: true}, temperature: {label: 'Temperature Graph', title: 'Temperature', status: true}, memory: {label: 'Memory Graph', title: 'Memory', status: true}}};
+function graphStorage(key) {
+  let storage = ss.getItem(key) ? ss.getItem(key) : '';
+  let data = [], i = 0;
+  for (const x of storage.split(',')) {
+    if (!x) continue;
+    data.push([i, x]);
+    i += 1;
+  }
+  return(data);
+}
+  
+function processStorage(key, value) {
+  let storage = ss.getItem(key) ? ss.getItem(key) : '';
+  storage = !Array.isArray(storage) ? storage.split(',') : storage;
+  storage.push(value);
+  if (storage.length >= historyCount)
+    storage.shift();
+  ss.setItem(key, storage);
+}
+
+let settings = {overview: {}, statistics: {}};
 
 function checkVersion() {
   const version = ls.getItem('pi_version') ? ls.getItem('pi_version') : VERSION;
