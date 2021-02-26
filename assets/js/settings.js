@@ -13,13 +13,13 @@ let jsClasses = {};
 let modulesSort = [];
 module.exports.piModules.forEach(jsModule => {
   const moduleName = jsModule.name.toLowerCase();
-  if (moduleName in settings.overview) {
-    if (settings.overview[moduleName].status) {
-      jsClasses[moduleName] = new jsModule(settings.overview[moduleName].timeout);
+  if (moduleName in settings[page]) {
+    if (settings[page][moduleName].status) {
+      jsClasses[moduleName] = new jsModule(settings[page][moduleName].timeout);
     }
   } else {
     jsClasses[moduleName] = new jsModule();
-    settings.overview[moduleName] = jsClasses[moduleName].settings;
+    settings[page][moduleName] = jsClasses[moduleName].settings;
   }
   modulesSort.push([moduleName, jsClasses[moduleName].settings.row]);
 });
