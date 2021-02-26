@@ -6,13 +6,11 @@ const execSync = require('child_process').execSync;
 
 module.exports.piModules = [];
 
-if (page === 'overview') {
-  fs.readdirSync("/home/simon/Repositories/RaspberryPi-Monitor/assets/js/modules/").forEach(file => {
-    let moduleJS = document.createElement("script");
-    moduleJS.setAttribute("src", "../assets/js/modules/" + file);
-    document.body.appendChild(moduleJS);
-  });
-}
+fs.readdirSync(process.env.PWD + "/assets/js/modules/" + page + "/").forEach(file => {
+  let moduleJS = document.createElement("script");
+  moduleJS.setAttribute("src", "../assets/js/modules/" + page + "/" + file);
+  document.body.appendChild(moduleJS);
+});
 
 for(const jsFile of ['settings', page]) {
   let jsScript = document.createElement("script");

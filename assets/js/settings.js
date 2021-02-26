@@ -11,21 +11,19 @@ settings = updateSettings();
 
 let jsClasses = {};
 let modulesSort = [];
-if (page === 'overview') {
-  module.exports.piModules.forEach(jsModule => {
-    const moduleName = jsModule.name.toLowerCase();
-    if (moduleName in settings.overview) {
-      if (settings.overview[moduleName].status) {
-        jsClasses[moduleName] = new jsModule(settings.overview[moduleName].timeout);
-      }
-    } else {
-      jsClasses[moduleName] = new jsModule();
-      settings.overview[moduleName] = jsClasses[moduleName].settings;
+module.exports.piModules.forEach(jsModule => {
+  const moduleName = jsModule.name.toLowerCase();
+  if (moduleName in settings.overview) {
+    if (settings.overview[moduleName].status) {
+      jsClasses[moduleName] = new jsModule(settings.overview[moduleName].timeout);
     }
-    modulesSort.push([moduleName, jsClasses[moduleName].settings.row]);
-  });
-  modulesSort.sort((a, b) => a[1] - b[1]);
-}
+  } else {
+    jsClasses[moduleName] = new jsModule();
+    settings.overview[moduleName] = jsClasses[moduleName].settings;
+  }
+  modulesSort.push([moduleName, jsClasses[moduleName].settings.row]);
+});
+modulesSort.sort((a, b) => a[1] - b[1]);
 
 function settingsModal(page) {
   let li = [];
