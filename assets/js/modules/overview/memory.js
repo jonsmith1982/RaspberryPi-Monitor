@@ -34,7 +34,7 @@ class Memory {
     const used = Math.round((statistics.memTotal * (statistics.memUsedPercent / 100)) * 100) / 100;
     const free = Math.round(statistics.memFree * 100) / 100;
     const total = Math.round(statistics.memTotal * 100) / 100;
-    //piMonitor.processStorage('mem_stats', percent);
+    processStorage('mem_stats', percent);
     $("#memory_graphs").html(this.progress('mem', 'mem', null, null, used, free, total, percent));
     setTimeout(this.reinitialise.bind(this), this.settings.timeout);
   }

@@ -63,7 +63,7 @@ class Temperature {
   
   reinitialise() {
     const temperature = fs.readFileSync('/sys/class/thermal/thermal_zone0/temp') / 1000;
-    //piMonitor.processStorage('cpu_temp', temperature);
+    processStorage('cpu_temp', temperature);
     document.gauges[document.gauges.length - 1].value = temperature;
     setTimeout(this.reinitialise.bind(this), this.settings.timeout);
   }

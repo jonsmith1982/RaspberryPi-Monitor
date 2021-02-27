@@ -67,7 +67,7 @@ class Processors {
   
   reinitialise(percent, seconds, coreIndex) {
     const cpuPercent = Math.ceil(percent);
-    //piMonitor.processStorage('cpu_stats_' + coreIndex, cpuPercent);
+    processStorage('cpu_stats_' + coreIndex, cpuPercent);
     document.gauges[coreIndex].value = percent;
     this.#corePercent(coreIndex, this.settings.timeout, this.reinitialise.bind(this));
   }
