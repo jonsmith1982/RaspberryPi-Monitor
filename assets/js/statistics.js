@@ -12,4 +12,17 @@ $(document).ready(function() {
     }
   });
   
+  $(".sortable-column").sortable({
+    tolerance: 'intersect',
+    revert: true,
+    item: 'section',
+    cursor: 'move',
+    forceHelperSize: true,
+    stop: function(event, ui) {
+      $(this).children('section').each(function(ib) {
+        settings.statistics[this.id].row = ib + 1;
+      });
+      settings = updateSettings(settings);
+    }
+  });
 });

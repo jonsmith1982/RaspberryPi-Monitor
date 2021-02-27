@@ -21,7 +21,7 @@ module.exports.piModules.forEach(jsModule => {
     jsClasses[moduleName] = new jsModule();
     settings[page][moduleName] = jsClasses[moduleName].settings;
   }
-  modulesSort.push([moduleName, jsClasses[moduleName].settings.row]);
+  modulesSort.push([moduleName, settings[page][moduleName].row]);
 });
 modulesSort.sort((a, b) => a[1] - b[1]);
 
