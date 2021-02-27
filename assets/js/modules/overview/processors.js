@@ -54,7 +54,7 @@ class Processors {
     this.deps[key] = value;
   }
   
-  initialise(gauges) {
+  initialise() {
     for (const x of Array(os.cpus().length).keys()) {
       let cpuGaugeOptions = this.gaugeOptions;
       cpuGaugeOptions.title = 'CPU' + x;

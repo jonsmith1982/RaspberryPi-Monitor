@@ -56,7 +56,7 @@ class Temperature {
     this.deps[key] = value;
   }
   
-  initialise(gauges) {
+  initialise() {
     new this.deps.gauges.RadialGauge(this.gaugeOptions).draw(); 
     this.reinitialise();
   }
