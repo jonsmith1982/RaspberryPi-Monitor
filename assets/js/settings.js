@@ -16,12 +16,13 @@ module.exports.piModules.forEach(jsModule => {
   if (moduleName in settings[page]) {
     if (settings[page][moduleName].status) {
       jsClasses[moduleName] = new jsModule(settings[page][moduleName].timeout);
+      modulesSort.push([moduleName, settings[page][moduleName].row]);
     }
   } else {
     jsClasses[moduleName] = new jsModule();
     settings[page][moduleName] = jsClasses[moduleName].settings;
+    modulesSort.push([moduleName, settings[page][moduleName].row]);
   }
-  modulesSort.push([moduleName, settings[page][moduleName].row]);
 });
 modulesSort.sort((a, b) => a[1] - b[1]);
 
