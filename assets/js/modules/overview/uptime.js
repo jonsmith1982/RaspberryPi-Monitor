@@ -7,7 +7,7 @@ class Uptime {
     status: true,
     label: 'Uptime Information',
     title: 'Uptime',
-    timeout: 2000,
+    timeout: 60000,
     column: 2,
     row: 1
   };

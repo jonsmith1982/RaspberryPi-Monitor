@@ -7,7 +7,7 @@ class Wifi {
     status: true,
     label: 'Wifi Information',
     title: 'Wifi',
-    timeout: 2000,
+    timeout: 10000,
     column: 2,
     row: 5
   };

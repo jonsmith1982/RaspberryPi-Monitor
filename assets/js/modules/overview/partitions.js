@@ -7,7 +7,7 @@ class Partitions {
     status: true,
     label: 'Partitions Information',
     title: 'Partitions',
-    timeout: 2000,
+    timeout: 10000,
     column: 3,
     row: 2
   };

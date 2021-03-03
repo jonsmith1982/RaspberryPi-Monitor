@@ -7,7 +7,7 @@ class Swap {
     status: true,
     label: 'Swap Information',
     title: 'Swap',
-    timeout: 2000,
+    timeout: 10000,
     column: 2,
     row: 4
   };

@@ -7,7 +7,7 @@ class Disks {
     status: true,
     label: 'Disks Information',
     title: 'Disks',
-    timeout: 2000,
+    timeout: 10000,
     column: 1,
     row: 3
   };
