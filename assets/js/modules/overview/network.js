@@ -10,11 +10,6 @@ class Network {
     column: 3,
     row: 1
   };
-  li = function(l, v, c = false) {
-    const label = l !== null ? '<strong>' + l + ':</strong> ' : ''
-    const value = c ? '<code>' + v + '</code>' : v;
-    return('<li class="list-group-item">' + label +  value + '</li>');
-  };
   
   constructor(timeout = 2000) {
     this.settings.timeout = timeout;
@@ -34,7 +29,7 @@ class Network {
     for (const x of iFaces) {
       const sent = Math.round(this.#bytesTo(netInfo[x].bytes.transmit) * 100) / 100;
       const received = Math.round(this.#bytesTo(netInfo[x].bytes.transmit) * 100) / 100;
-      let iFace = this.li('Sent', sent + 'GiB') + this.li('Received', received + 'GiB');
+      let iFace = li('Sent', sent + 'GiB') + li('Received', received + 'GiB');
       if ($("#iface_" + x).length) {
         $("#iface_" + x).html(iFace);
       } else {

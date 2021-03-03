@@ -42,6 +42,17 @@ function processStorage(key, value) {
   ss.setItem(key, storage);
 }
 
+function progress(s, n, l, c, u, a, t, p) {
+  const code = c !== null ? '<strong class="tiny">' + l + ':</strong> <code>' + c + '</code>' : '';
+  return('<div id="' + s + '_' + n + '">' + code + '<label id="' + n + '_label" class="tiny"><strong>Used:</strong> ' + u + 'GiB <strong>Available:</strong> ' + a + 'GiB of ' + t + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + n + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + p + '%;" aria-valuenow="' + p + '" aria-valuemin="0" aria-valuemax="100">' + p + '%</div></div></div>');
+}
+
+function li(l, v, c = false) {
+  const label = l !== null ? '<strong>' + l + ':</strong> ' : ''
+  const value = c ? '<code>' + v + '</code>' : v;
+  return('<li class="list-group-item">' + label +  value + '</li>');
+}
+
 let settings = {overview: {}, statistics: {}};
 
 function checkVersion() {

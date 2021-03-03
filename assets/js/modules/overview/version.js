@@ -61,11 +61,6 @@ class Version {
     'd03114': ['Model 4B revision 1.4 8GB, Sony UK', '4B', '1.4', '8GB', 'Sony UK'],
     'c03130': ['Model Pi 400 revision 1.0 4GB, Sony UK', 'Pi 400', '1.0', '4GB', 'Sony UK']
   };
-  li = function(l, v, c = false) {
-    const label = l !== null ? '<strong>' + l + ':</strong> ' : ''
-    const value = c ? '<code>' + v + '</code>' : v;
-    return('<li class="list-group-item">' + label +  value + '</li>');
-  };
   
   constructor(timeout = 2000) {
     this.settings.timeout = timeout;
@@ -77,15 +72,15 @@ class Version {
   
   initialise() {
     const hInfo = this.#parseHardwareInfo(fs.readFileSync('/proc/cpuinfo'));
-    $("#version_info").append(this.li('Chipset', hInfo.hardware));
+    $("#version_info").append(li('Chipset', hInfo.hardware));
     if (hInfo.revision in this.revisions) {
       const rInfo = this.revisions[hInfo.revision];
-      $("#version_info").append(this.li('Manufacturer', rInfo[4]));
-      $("#version_info").append(this.li('Model', rInfo[1] + ' (' + rInfo[3] + ')'));
-      $("#version_info").append(this.li('Revision', rInfo[2]));
+      $("#version_info").append(li('Manufacturer', rInfo[4]));
+      $("#version_info").append(li('Model', rInfo[1] + ' (' + rInfo[3] + ')'));
+      $("#version_info").append(li('Revision', rInfo[2]));
     }
-    //$("#version_info").append(this.li('Serial No', hInfo.serial));
-    $("#version_info").append(this.li('Serial No', '0000000000000'));
+    //$("#version_info").append(li('Serial No', hInfo.serial));
+    $("#version_info").append(li('Serial No', '0000000000000'));
   }
   
   #parseHardwareInfo(cpuinfo) {

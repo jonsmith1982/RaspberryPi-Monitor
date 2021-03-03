@@ -10,10 +10,6 @@ class Partitions {
     column: 3,
     row: 2
   };
-  progress = function(s, n, l, c, u, a, t, p) {
-    const code = c !== null ? '<strong class="tiny">' + l + ':</strong> <code>' + c + '</code>' : '';
-    return('<div id="' + s + '_' + n + '">' + code + '<label id="' + n + '_label" class="tiny"><strong>Used:</strong> ' + u + 'GiB <strong>Available:</strong> ' + a + 'GiB of ' + t + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + n + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + p + '%;" aria-valuenow="' + p + '" aria-valuemin="0" aria-valuemax="100">' + p + '%</div></div></div>');
-  };
   
   constructor(timeout = 2000) {
     this.settings.timeout = timeout;
@@ -37,7 +33,7 @@ class Partitions {
           const available = Math.round(this.#bytesTo(disks[x].size - disks[x].fsused) * 100) / 100;
           const used = Math.round(this.#bytesTo(disks[x].fsused) * 100) / 100;
           const percent = Math.ceil(((disks[x].size - disks[x].fsused) / disks[x].size) * 100);
-          const part = this.progress('partitions', x, 'Mount Point', disks[x].mountpoint, used, available, total, percent);
+          const part = progress('partitions', x, 'Mount Point', disks[x].mountpoint, used, available, total, percent);
           $("#partitions_graphs").append(part);
         }
       }

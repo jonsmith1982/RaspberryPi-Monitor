@@ -10,10 +10,6 @@ class Swap {
     column: 2,
     row: 4
   };
-  progress = function(s, n, l, c, u, a, t, p) {
-    const code = c !== null ? '<strong class="tiny">' + l + ':</strong> <code>' + c + '</code>' : '';
-    return('<div id="' + s + '_' + n + '">' + code + '<label id="' + n + '_label" class="tiny"><strong>Used:</strong> ' + u + 'GiB <strong>Available:</strong> ' + a + 'GiB of ' + t + 'GiB</label><div class="progress mb-3" style="height:20px;"><div id="' + n + '_gauge" class="progress-bar progress-bar-striped" role="progressbar" style="width: ' + p + '%;" aria-valuenow="' + p + '" aria-valuemin="0" aria-valuemax="100">' + p + '%</div></div></div>');
-  };
   
   constructor(timeout = 2000) {
     this.settings.timeout = timeout;
@@ -35,7 +31,7 @@ class Swap {
     const free = Math.round(statistics.swapFree * 100) / 100;
     const total = Math.round(statistics.swapTotal * 100) / 100;
     //piMonitor.processStorage('mem_stats', percent);
-    $("#swap_graphs").html(this.progress('swap', 'swap', null, null, used, free, total, percent));
+    $("#swap_graphs").html(progress('swap', 'swap', null, null, used, free, total, percent));
     setTimeout(this.reinitialise.bind(this), this.settings.timeout);
   }
   

@@ -10,11 +10,6 @@ class Disks {
     column: 1,
     row: 3
   };
-  li = function(l, v, c = false) {
-    const label = l !== null ? '<strong>' + l + ':</strong> ' : ''
-    const value = c ? '<code>' + v + '</code>' : v;
-    return('<li class="list-group-item">' + label +  value + '</li>');
-  };
   
   constructor(timeout = 2000) {
     this.settings.timeout = timeout;
@@ -34,7 +29,7 @@ class Disks {
     for (const x of Object.keys(disks)) {
       if (disks[x].type === 'disk') {
         const total = Math.round(this.#bytesTo(disks[x].size) * 100) / 100;
-        const html = '<ul id="disk_' + x + '" class="list-group tiny">' + this.li('Device', disks[x].path, true) + this.li('Size', total + 'GiB', true) + this.li('Owner/Group', disks[x].owner + '/' + disks[x].group, true) + '</ul>';
+        const html = '<ul id="disk_' + x + '" class="list-group tiny">' + li('Device', disks[x].path, true) + li('Size', total + 'GiB', true) + li('Owner/Group', disks[x].owner + '/' + disks[x].group, true) + '</ul>';
         $("#disks_graphs").append(html);
       }
     }
