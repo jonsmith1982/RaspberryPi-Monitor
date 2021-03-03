@@ -7,12 +7,13 @@ class Network {
     status: true,
     label: 'Network Information',
     title: 'Network',
+    timeout: 2000,
     column: 3,
     row: 1
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

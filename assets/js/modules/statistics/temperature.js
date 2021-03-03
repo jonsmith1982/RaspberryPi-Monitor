@@ -7,6 +7,7 @@ class Temperature {
     status: true,
     label: 'Temperature Graph',
     title: 'Temperature',
+    timeout: 2000,
     row: 3
   };
   options = {
@@ -43,8 +44,8 @@ class Temperature {
     }
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

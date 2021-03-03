@@ -7,12 +7,13 @@ class Swap {
     status: true,
     label: 'Swap Information',
     title: 'Swap',
+    timeout: 2000,
     column: 2,
     row: 4
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

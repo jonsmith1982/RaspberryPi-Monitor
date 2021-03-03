@@ -8,6 +8,7 @@ class Processors {
     label: 'Processors Information',
     title: 'Processors',
     deps: 'gauges',
+    timeout: 2000,
     column: 1,
     row: 2
   };
@@ -42,8 +43,8 @@ class Processors {
   };
   deps = {};
     
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

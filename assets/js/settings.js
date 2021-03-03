@@ -15,7 +15,7 @@ module.exports.piModules.forEach(jsModule => {
   const moduleName = jsModule.name.toLowerCase();
   if (moduleName in settings[page]) {
     if (settings[page][moduleName].status) {
-      jsClasses[moduleName] = new jsModule(settings[page][moduleName].timeout);
+      jsClasses[moduleName] = new jsModule(settings[page][moduleName]);
       modulesSort.push([moduleName, settings[page][moduleName].row]);
     }
   } else {

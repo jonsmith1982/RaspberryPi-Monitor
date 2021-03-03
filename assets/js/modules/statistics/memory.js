@@ -7,6 +7,7 @@ class Memory {
     status: true,
     label: 'Memory Graph',
     title: 'Memory',
+    timeout: 2000,
     row: 2
   };
   options = {
@@ -43,8 +44,8 @@ class Memory {
     }
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

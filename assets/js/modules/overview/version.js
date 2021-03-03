@@ -7,6 +7,7 @@ class Version {
     status: true,
     label: 'Version Information',
     title: 'Version',
+    timeout: 2000,
     column: 1,
     row: 1
   };
@@ -62,8 +63,8 @@ class Version {
     'c03130': ['Model Pi 400 revision 1.0 4GB, Sony UK', 'Pi 400', '1.0', '4GB', 'Sony UK']
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

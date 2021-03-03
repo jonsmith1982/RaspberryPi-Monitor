@@ -7,12 +7,13 @@ class Uptime {
     status: true,
     label: 'Uptime Information',
     title: 'Uptime',
+    timeout: 2000,
     column: 2,
     row: 1
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

@@ -7,12 +7,13 @@ class Partitions {
     status: true,
     label: 'Partitions Information',
     title: 'Partitions',
+    timeout: 2000,
     column: 3,
     row: 2
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

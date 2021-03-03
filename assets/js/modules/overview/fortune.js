@@ -7,12 +7,13 @@ class Fortune {
     status: true,
     label: 'Fortune Cookie',
     title: 'Fortune',
+    timeout: 2000,
     column: 1,
     row: 1
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

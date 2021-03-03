@@ -7,6 +7,7 @@ class Processors {
     status: true,
     label: 'Processors Graph',
     title: 'Processors',
+    timeout: 2000,
     row: 1
   };
   options = {
@@ -43,8 +44,8 @@ class Processors {
     }
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {

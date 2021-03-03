@@ -7,12 +7,13 @@ class Memory {
     status: true,
     label: 'Memory Information',
     title: 'Memory',
+    timeout: 2000,
     column: 2,
     row: 3
   };
   
-  constructor(timeout = 2000) {
-    this.settings.timeout = timeout;
+  constructor(s = null) {
+    if (s !== null) Object.assign(this.settings, s);
   }
   
   placeholder() {
