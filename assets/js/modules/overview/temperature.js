@@ -58,14 +58,15 @@ class Temperature {
   }
   
   initialise() {
-    new this.deps.gauges.RadialGauge(this.gaugeOptions).draw(); 
+    new this.deps.gauges.RadialGauge(this.gaugeOptions).draw();
+    this.settings.gaugeIndex = document.gauges.length - 1;
     this.reinitialise();
   }
   
   reinitialise() {
     const temperature = fs.readFileSync('/sys/class/thermal/thermal_zone0/temp') / 1000;
     processStorage('cpu_temp', temperature);
-    document.gauges[document.gauges.length - 1].value = temperature;
+    document.gauges[this.settings.gaugeIndex].value = temperature;
     setTimeout(this.reinitialise.bind(this), this.settings.timeout);
   }
 }

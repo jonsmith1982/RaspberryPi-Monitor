@@ -56,6 +56,7 @@ class Processors {
   }
   
   initialise() {
+    this.settings.gaugeIndexStart = document.gauges.length;
     for (const x of Array(os.cpus().length).keys()) {
       let cpuGaugeOptions = this.gaugeOptions;
       cpuGaugeOptions.title = 'CPU' + x;
@@ -69,7 +70,7 @@ class Processors {
   reinitialise(percent, seconds, coreIndex) {
     const cpuPercent = Math.ceil(percent);
     processStorage('cpu_stats_' + coreIndex, cpuPercent);
-    document.gauges[coreIndex].value = percent;
+    document.gauges[this.settings.gaugeIndexStart + coreIndex].value = percent;
     this.#corePercent(coreIndex, this.settings.timeout, this.reinitialise.bind(this));
   }
   
